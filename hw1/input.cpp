@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include "cmdline.h"
+
 using namespace std;
 
 class WordNode{
@@ -9,9 +11,7 @@ class WordNode{
         char prefix;
         char suffix;
         vector <string> wordlist;
-        int wordcount;
-        int wordmaxlength;
-
+        int word_count;
 }
 
 int most_word(int if_start, int start, int &length ,int &max_length, int num_matrix[][26], vector<int> &result, vector<int> &temp_result) {
@@ -54,11 +54,41 @@ int most_word(int if_start, int start, int &length ,int &max_length, int num_mat
 	return n;
 }
 
-int main() {
+void parse_args(){
+
+}
+int main(int argc, char *argv[]) {
+	// parsing arguments
+	cmdline::parser argparser;
+	
+	// counting word numbers
+	argparser.add<string>("word", 'w', "word count", false, "");
+
+	// counting characters
+	argparser.add<string>("char", 'c', "character count", false, "");
+
+	// given head character
+	argparser.add<char>("head", 'h', "head character", false, "");
+
+	// given tail character
+	argparser.add<char>("tail", 't', "tail character", false, "");
+
+	// given word counts
+	argparser.add<int>("num", 'n', "given word number", false, "");
+
+	// run parser
+	argparser.parse_check(argc, argv);
+
+	// get results
+	cout << argparser.get<string>("word");
+	cout << argparser.get<string>("char");
+	cout << argparser.get<char>("head");
+	cout << argparser.get<char>("tail");
+	cout << argparser.get<int>("num");
+	// argument parsing finished
 
 	int num_matrix[26][26] = { 0 };
 	vector<string> word_matrix[26][26];
-
 	ifstream infile;   
 	char temp_char,start_char,end_char;
 	int length = 0;
