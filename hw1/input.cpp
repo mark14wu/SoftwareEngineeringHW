@@ -130,8 +130,8 @@ int main(int argc, char *argv[]) {
 				if (!if_repeat) {
 					//WordMatrix[start_index][end_index].wordlist.push_back(temp_string);
 					vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin();
-					while (it != WordMatrix[start_index][end_index].wordlist.end) {
-						if ((*it).length <= temp_string.length)
+					while (it != WordMatrix[start_index][end_index].wordlist.end()) {
+						if ((*it).length <= temp_string.length())
 							it++;
 						else
 							break;
@@ -166,14 +166,14 @@ int main(int argc, char *argv[]) {
 	vector<int> result;
 	vector<int> temp_result;
 
-	int n = most_word(1, 0, length1, max_length , num_matrix, result, temp_result);
+	//int n = most_word(1, 0, length1, max_length , num_matrix, result, temp_result);
 
-	printf("ans:%d\n", n);
+	//printf("ans:%d\n", n);
 	for (vector<int>::iterator it = result.begin(); it != result.end()-1; it++)
 	{
 		cout << *it << endl;
-		cout << WordMatrix[*it][*(it + 1)].wordlist[num_matrix[*it][*(it + 1)] - 1] << endl;
-		num_matrix[*it][*(it + 1)]--;
+		cout << WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1] << endl;
+		WordMatrix[*it][*(it + 1)].word_count--;
 	}
 
 	infile.close(); 
