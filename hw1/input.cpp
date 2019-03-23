@@ -1,6 +1,3 @@
-#include <iostream>
-#include <string>
-#include <vector>
 #include <fstream>
 #include "cmdline.h"
 
@@ -60,20 +57,20 @@ int main(int argc, char *argv[]) {
 	// parsing arguments
 	cmdline::parser argparser;
 	
-	// counting word numbers
+	// counting word numbers, default = ""
 	argparser.add<string>("word", 'w', "word count", false, "");
 
-	// counting characters
+	// counting characters, default = ""
 	argparser.add<string>("char", 'c', "character count", false, "");
 
-	// given head character
-	argparser.add<char>("head", 'h', "head character", false, "");
+	// given head character, default = '\0'
+	argparser.add<char>("head", 'h', "head character", false, '\0');
 
-	// given tail character
-	argparser.add<char>("tail", 't', "tail character", false, "");
+	// given tail character, default = '\0'
+	argparser.add<char>("tail", 't', "tail character", false, '\0');
 
-	// given word counts
-	argparser.add<int>("num", 'n', "given word number", false, "");
+	// given word counts, default = 0
+	argparser.add<int>("num", 'n', "given word number", false, 0);
 
 	// run parser
 	argparser.parse_check(argc, argv);
