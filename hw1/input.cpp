@@ -12,7 +12,7 @@ class WordNode{
         char suffix;
         vector <string> wordlist;
         int word_count;
-}
+};
 
 int most_word(int if_start, int start, int &length ,int &max_length, int num_matrix[][26], vector<int> &result, vector<int> &temp_result) {
 	if (if_start == 1) {
@@ -41,7 +41,6 @@ int most_word(int if_start, int start, int &length ,int &max_length, int num_mat
 				result.clear();
 				result.assign(temp_result.begin(), temp_result.end());
 			}
-			if (length > max_length);
 			int temp = most_word(0, i, length, max_length, num_matrix, result, temp_result)+1;
 			if (temp > n) {
 				n = temp;
@@ -88,8 +87,15 @@ int main(int argc, char *argv[]) {
 	// argument parsing finished
 	//volatil11
 
-	int num_matrix[26][26] = { 0 };
-	vector<string> word_matrix[26][26];
+	/*int num_matrix[26][26] = { 0 };
+	vector<string> word_matrix[26][26];*/
+	WordNode WordMatrix[26][26];
+	for (int i = 0; i < 26; i++) {
+		for (int j = 0; j < 26; j++) {
+			WordMatrix[i][j].prefix = 97 + i;
+			WordMatrix[i][j].suffix = 97 + j;
+		}
+	}
 	ifstream infile;   
 	char temp_char,start_char,end_char;
 	int length = 0;
@@ -118,16 +124,24 @@ int main(int argc, char *argv[]) {
 				int start_index = start_char-97;
 				int end_index = end_char-97;
 				bool if_repeat=false;
-				for (vector<string>::iterator it = word_matrix[start_index][end_index].begin(); it != word_matrix[start_index][end_index].end(); it++)
+				for (vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin(); it != WordMatrix[start_index][end_index].wordlist.end(); it++)
 				{
 					//cout << "test: " << temp_string << *it << temp_string.compare(*it)  << endl;
 					if (temp_string.compare(*it) == 0)
 						if_repeat = true;
 				}
 				if (!if_repeat) {
-					word_matrix[start_index][end_index].push_back(temp_string);
+					//WordMatrix[start_index][end_index].wordlist.push_back(temp_string);
+					vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin();
+					while (it != WordMatrix[start_index][end_index].wordlist.end) {
+						if ((*it).length <= temp_string.length)
+							it++;
+						else
+							break;
+					}
+					WordMatrix[start_index][end_index].wordlist.insert(it, temp_string);
 					word_count++;
-					num_matrix[start_index][end_index]++;
+					WordMatrix[start_index][end_index].word_count++;
 				}
 			}
 			temp_string = string();
@@ -142,7 +156,7 @@ int main(int argc, char *argv[]) {
 
 	for (int i = 0; i < 26; i++) {
 		for (int j = 0; j < 26; j++) {
-			 for (vector<string>::iterator it = word_matrix[i][j].begin(); it != word_matrix[i][j].end(); it++)
+			for (vector<string>::iterator it = WordMatrix[i][j].wordlist.begin(); it != WordMatrix[i][j].wordlist.end(); it++)
 			 {
 				cout << *it << endl;
 			 }
@@ -161,7 +175,7 @@ int main(int argc, char *argv[]) {
 	for (vector<int>::iterator it = result.begin(); it != result.end()-1; it++)
 	{
 		cout << *it << endl;
-		cout << word_matrix[*it][*(it + 1)][num_matrix[*it][*(it + 1)] - 1] << endl;
+		cout << WordMatrix[*it][*(it + 1)].wordlist[num_matrix[*it][*(it + 1)] - 1] << endl;
 		num_matrix[*it][*(it + 1)]--;
 	}
 
