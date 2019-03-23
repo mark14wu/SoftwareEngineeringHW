@@ -1,6 +1,3 @@
-#include <iostream>
-#include <string>
-#include <vector>
 #include <fstream>
 #include "cmdline.h"
 
@@ -12,7 +9,7 @@ class WordNode{
         char suffix;
         vector <string> wordlist;
         int word_count;
-}
+};
 
 int most_word(int if_start, int start, int &length ,int &max_length, int num_matrix[][26], vector<int> &result, vector<int> &temp_result) {
 	if (if_start == 1) {
@@ -41,7 +38,6 @@ int most_word(int if_start, int start, int &length ,int &max_length, int num_mat
 				result.clear();
 				result.assign(temp_result.begin(), temp_result.end());
 			}
-			if (length > max_length);
 			int temp = most_word(0, i, length, max_length, num_matrix, result, temp_result)+1;
 			if (temp > n) {
 				n = temp;
@@ -61,20 +57,20 @@ int main(int argc, char *argv[]) {
 	// parsing arguments
 	cmdline::parser argparser;
 	
-	// counting word numbers
+	// counting word numbers, default = ""
 	argparser.add<string>("word", 'w', "word count", false, "");
 
-	// counting characters
+	// counting characters, default = ""
 	argparser.add<string>("char", 'c', "character count", false, "");
 
-	// given head character
-	argparser.add<char>("head", 'h', "head character", false, "");
+	// given head character, default = '\0'
+	argparser.add<char>("head", 'h', "head character", false, '\0');
 
-	// given tail character
-	argparser.add<char>("tail", 't', "tail character", false, "");
+	// given tail character, default = '\0'
+	argparser.add<char>("tail", 't', "tail character", false, '\0');
 
-	// given word counts
-	argparser.add<int>("num", 'n', "given word number", false, "");
+	// given word counts, default = 0
+	argparser.add<int>("num", 'n', "given word number", false, 0);
 
 	// run parser
 	argparser.parse_check(argc, argv);
