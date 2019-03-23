@@ -9,6 +9,7 @@ class WordNode{
         char suffix;
         vector <string> wordlist;
         int word_count;
+		int word_use;
 };
 
 int most_word(int if_start, int start, int &length ,int &max_length, WordNode num_matrix[][26], vector<int> &result, vector<int> &temp_result) {
@@ -44,6 +45,49 @@ int most_word(int if_start, int start, int &length ,int &max_length, WordNode nu
 			}
 			temp_result.pop_back();
 			length--;
+			num_matrix[start][i].word_count++;
+		}
+	}
+	return n;
+}
+
+int most_char(int if_start, int start, int &length, int &max_length, WordNode num_matrix[][26], vector<int> &result, vector<int> &temp_result) {
+	if (if_start == 1) {
+		int n = 0;
+		int best_i;
+		for (int i = 0; i < 26; i++) {
+			temp_result.clear();
+			temp_result.push_back(i);
+			int temp = most_char(0, i, length, max_length, num_matrix, result, temp_result);
+			if (temp > n) {
+				n = temp;
+			}
+		}
+		return n;
+	}
+	int n = 0;
+	int best_i;
+	for (int i = 0; i < 26; i++) {
+		if (num_matrix[start][i].word_count > 0) {
+			num_matrix[start][i].word_count--;
+			num_matrix[start][i].word_use++;
+			vector<string>::iterator it = num_matrix[start][i].wordlist.end();
+			int MaxCharNum = (*(it - num_matrix[start][i].word_use)).length();
+			length+= MaxCharNum;
+			temp_result.push_back(i);
+			if (length > max_length) {
+				max_length = length;
+				printf("%d %d\n", MaxCharNum, max_length);
+				result.clear();
+				result.assign(temp_result.begin(), temp_result.end());
+			}
+			int temp = most_char(0, i, length, max_length, num_matrix, result, temp_result) + MaxCharNum;
+			if (temp > n) {
+				n = temp;
+			}
+			temp_result.pop_back();
+			length-= MaxCharNum;
+			num_matrix[start][i].word_use--;
 			num_matrix[start][i].word_count++;
 		}
 	}
@@ -92,6 +136,7 @@ int main(int argc, char *argv[]) {
 			WordMatrix[i][j].prefix = 97 + i;
 			WordMatrix[i][j].suffix = 97 + j;
 			WordMatrix[i][j].word_count = 0;
+			WordMatrix[i][j].word_use = 0;
 		}
 	}
 	ifstream infile;   
@@ -161,20 +206,21 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	for (int i = 0; i < 26; i++) {
+	/*for (int i = 0; i < 26; i++) {
 		for (int j = 0; j < 26; j++) {
 			cout << WordMatrix[i][j].word_count;
 		}
 		cout << endl;
 
-	}
+	}*/
 	//����1
 	int length1 = 0;
 	int max_length = 0;
 	vector<int> result;
 	vector<int> temp_result;
 
-	int n = most_word(1, 0, length1, max_length , WordMatrix, result, temp_result);
+	//int n = most_word(1, 0, length1, max_length , WordMatrix, result, temp_result);
+	int n = most_char (1, 0, length1, max_length, WordMatrix, result, temp_result);
 
 	printf("ans:%d\n", n);
 	for (vector<int>::iterator it = result.begin(); it != result.end()-1; it++)
