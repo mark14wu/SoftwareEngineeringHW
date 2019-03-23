@@ -128,6 +128,36 @@ int most_char(int if_start, int start, int &length, int &max_length, int start_c
 	return n;
 }
 
+void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode num_matrix[][26], vector<string> &temp_result) {
+	if (if_start == 1) {
+		for (int i = 0; i < 26; i++) {
+			n_word(0, i, length, n_length, n, num_matrix, temp_result);
+		}
+	}
+	for (int i = 0; i < 26; i++) {
+		if (num_matrix[start][i].word_count > 0) {
+			num_matrix[start][i].word_count--;
+			length++;
+			temp_result.push_back(num_matrix[start][i].wordlist[num_matrix[start][i].word_count]);
+			num_matrix[start][i].wordlist.pop_back();
+			if (length == n_length) {
+				n++;
+				for (vector<string>::iterator it = temp_result.begin(); it != temp_result.end(); it++) {
+					cout << *it << " ";
+				}
+				cout << endl;
+			}
+			else {
+				n_word(0, i, length, n_length, n, num_matrix, temp_result);
+			}
+			num_matrix[start][i].wordlist.push_back(temp_result.back());
+			temp_result.pop_back();
+			length--;
+			num_matrix[start][i].word_count++;
+		}
+	}
+}
+
 void parse_args(){
 
 }
@@ -252,11 +282,13 @@ int main(int argc, char *argv[]) {
 	int max_length = 0;
 	vector<int> result;
 	vector<int> temp_result;
+	vector<string> string_result;
 
 	//int n = most_word(1, 0, length1, max_length , 0, 0, WordMatrix, result, temp_result);
-	int n = most_char (1, 0, length1, max_length, 1, 14, WordMatrix, result, temp_result);
-
+	//int n = most_char (1, 0, length1, max_length, 1, 14, WordMatrix, result, temp_result);
+	int n=0; n_word(1, 0, length1, 3, n, WordMatrix, string_result);
 	printf("ans:%d\n", max_length);
+	printf("n:%d\n", n);
 	if (result.empty() == 0) {
 		for (vector<int>::iterator it = result.begin(); it != result.end() - 1; it++)
 		{
