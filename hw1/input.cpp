@@ -196,14 +196,19 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 	head_char = buffer[0];
-	if ('a' <= head_char && head_char <= 'z'){
-		head = head_char - 'a' + 1;
-	}
-	else if ('A' <= head_char && head_char <= 'Z'){
-		head = head_char - 'A' + 1;
+	if (head_char != '\0'){
+		if ('a' <= head_char && head_char <= 'z'){
+			head = head_char - 'a' + 1;
+		}
+		else if ('A' <= head_char && head_char <= 'Z'){
+			head = head_char - 'A' + 1;
+		}
+		else{
+			cerr << "head character is not in the range(a-z, A-Z)!" << endl;
+		}
 	}
 	else{
-		cerr << "head character is not in the range(a-z, A-Z)!" << endl;
+		head = 0;
 	}
 
 	// getting tail char
@@ -213,15 +218,20 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 	tail_char = buffer[0];
+	if (tail_char != '\0'){
 		if ('a' <= tail_char && tail_char <= 'z'){
-		tail = tail_char - 'a' + 1;
-	}
-	else if ('A' <= tail_char && tail_char <= 'Z'){
-		tail = tail_char - 'A' + 1;
+			tail = tail_char - 'a' + 1;
+		}
+		else if ('A' <= tail_char && tail_char <= 'Z'){
+			tail = tail_char - 'A' + 1;
+		}
+		else{
+			cerr << "head character is not in the range(a-z, A-Z)!" << endl;
+			return -1;
+		}
 	}
 	else{
-		cerr << "head character is not in the range(a-z, A-Z)!" << endl;
-		return -1;
+		tail = 0;
 	}
 
 	// getting word chain length
