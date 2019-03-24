@@ -163,11 +163,11 @@ int main(int argc, char *argv[]) {
 	ofstream outfile;
 	outfile.open("solution.txt");
 	
-	// counting word numbers, default = ""
-	argparser.add<string>("word", 'w', "word count", false, "");
+	// counting word numbers, "-w"
+	argparser.add("word", 'w', "word count");
 
-	// counting characters, default = ""
-	argparser.add<string>("char", 'c', "character count", false, "");
+	// counting characters, "-c"
+	argparser.add("char", 'c', "character count");
 
 	// given head character, default = ""
 	argparser.add<string>("head", 'h', "head character", false, "");
@@ -182,14 +182,12 @@ int main(int argc, char *argv[]) {
 	argparser.parse_check(argc, argv);
 
 	// get results
-	string filename_word, filename_char, buffer;
+	string filename, buffer;
 	char head_char, tail_char;
 	int head, tail;
 	int num;
 	bool word_flag = false, char_flag = false, num_flag = false;
 
-	filename_word = argparser.get<string>("word");
-	filename_char = argparser.get<string>("char");
 	// getting head char
 	// buffer is STRING, get first char of buffer
 	buffer = argparser.get<string>("head");
@@ -245,35 +243,34 @@ int main(int argc, char *argv[]) {
 	if (num != 2147483647)
 		num_flag = true;
 	
-	if (filename_word.length() != 0 && filename_char.length() != 0){
+	if (!argparser.exist("word") &&!argparser.exist("char")){
 		cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
 		outfile << "-w and -c cannot be used together!(Not Implemented!)" << endl;
 		return -1;
 	}
 
 	// judging work mode
-	string filename;
 
-	if (filename_word.length() != 0){
-		filename = filename_word;
+	if (argparser.exist("word")){
 		word_flag = true;
 	}
-	else{
-		filename = filename_char;
+	else if (argparser.exist("char")){
 		char_flag = true;
 	}
-
-	if ((!word_flag) && (!char_flag)){
+	else{
 		cerr << "Either -w or -c must be selected!" << endl;
 		outfile << "Either -w or -c must be selected!" << endl;
 		return -1;
-		}
+
+	}
 	
 	if (num_flag && char_flag){
 		cerr << "Using -c and -n together is not implemented!" << endl;
 		outfile << "Using -c and -n together is not implemented!" << endl;
 		return -1;
 	}
+
+	filename = argparser.rest()[0];
 
 	// argument parsing finished
 
@@ -298,7 +295,7 @@ int main(int argc, char *argv[]) {
 	infile.open(filename, ios::in);
 
 	if (!infile.is_open()) {
-		cout << "Open file " << filename << " failure" << endl;
+		cerr << "Open file " << filename << " failure" << endl;
 		outfile << "Open file " << filename << " failure" << endl;
 	}
 	infile >> noskipws;
@@ -316,18 +313,15 @@ int main(int argc, char *argv[]) {
 		}
 		else {
 			if (length > 1) {
-				//cout << start_char << temp_string << end_char << endl;
 				int start_index = start_char-97;
 				int end_index = end_char-97;
 				bool if_repeat=false;
 				for (vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin(); it != WordMatrix[start_index][end_index].wordlist.end(); it++)
 				{
-					//cout << "test: " << temp_string << *it << temp_string.compare(*it)  << endl;
 					if (temp_string.compare(*it) == 0)
 						if_repeat = true;
 				}
 				if (!if_repeat) {
-					//WordMatrix[start_index][end_index].wordlist.push_back(temp_string);
 					vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin();
 					while (it != WordMatrix[start_index][end_index].wordlist.end()) {
 						if ((*it).length() <= temp_string.length())
@@ -348,24 +342,10 @@ int main(int argc, char *argv[]) {
 
 	if (word_count == 0) {
 		//error1
+		cerr << "word not found!" << endl;
+		outfile << "word not found!" << endl;
+		return -1;
 	}
-	/*
-	for (int i = 0; i < 26; i++) {
-		for (int j = 0; j < 26; j++) {
-			for (vector<string>::iterator it = WordMatrix[i][j].wordlist.begin(); it != WordMatrix[i][j].wordlist.end(); it++)
-			 {
-				cout << *it << endl;
-			 }
-		}
-	}
-	*/
-	/*for (int i = 0; i < 26; i++) {
-		for (int j = 0; j < 26; j++) {
-			cout << WordMatrix[i][j].word_count;
-		}
-		cout << endl;
-
-	}*/
 	///////////////----preprocessing finished----////////////
 	/////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////
@@ -385,6 +365,7 @@ int main(int argc, char *argv[]) {
 	}
 	else{
 		cerr << "flag exception!" << endl;
+		outfile << "flag exception!" << endl;
 		return -1;
 	}
 
@@ -403,7 +384,9 @@ int main(int argc, char *argv[]) {
 		}
 		else {
 			//error 2
-			cout << "error: word chain not found !" << endl;
+			cerr << "error: word chain not found !" << endl;
+			outfile << "error: word chain not found !" << endl;
+			return -1;
 		}
 	}
 	else {
