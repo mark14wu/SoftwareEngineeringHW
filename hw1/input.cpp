@@ -192,7 +192,7 @@ int main(int argc, char *argv[]) {
 	// buffer is STRING, get first char of buffer
 	buffer = argparser.get<string>("head");
 	if (buffer.length() > 1){
-		cerr << "首字母长度大于1!" << endl;
+		cerr << "length of head character is greater than 1!" << endl;
 		return -1;
 	}
 	head_char = buffer[0];
@@ -203,13 +203,13 @@ int main(int argc, char *argv[]) {
 		head = head_char - 'A' + 1;
 	}
 	else{
-		cerr << "头字母不在范围内！" << endl;
+		cerr << "head character is not in the range(a-z, A-Z)!" << endl;
 	}
 
 	// getting tail char
 	buffer = argparser.get<string>("tail");
 	if (buffer.length() > 1){
-		cerr << "尾字母长度大于1!" << endl;
+		cerr << "length of tail character is greater than 1!" << endl;
 		return -1;
 	}
 	tail_char = buffer[0];
@@ -220,7 +220,7 @@ int main(int argc, char *argv[]) {
 		tail = tail_char - 'A' + 1;
 	}
 	else{
-		cerr << "头字母不在范围内！" << endl;
+		cerr << "head character is not in the range(a-z, A-Z)!" << endl;
 		return -1;
 	}
 
@@ -231,13 +231,13 @@ int main(int argc, char *argv[]) {
 			num_flag = true;
 	}
 	else{
-		cerr << "输入数字不能为负！" << endl;
+		cerr << "Input number cannot be less than zero！" << endl;
 		return -1;
 	}
 	
 	cout << filename_word << filename_char << head << tail << num << endl;
 	if (filename_word.length() != 0 && filename_char.length() != 0){
-		cerr << "不支持同时使用 -w 和 -c！" << endl;
+		cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
 		return -1;
 	}
 
@@ -254,12 +254,12 @@ int main(int argc, char *argv[]) {
 	}
 
 	if ((!word_flag) && (!char_flag)){
-		cerr << "至少选择 -w 和 -c 中的一种！" << endl;
+		cerr << "Either -w or -c must be selected!" << endl;
 		return -1;
 		}
 	
 	if (num_flag && char_flag){
-		cerr << "暂不支持 -c 和 -n 同时使用！" << endl;
+		cerr << "Using -c and -n together is not implemented!" << endl;
 		return -1;
 	}
 
