@@ -294,8 +294,8 @@ int main(int argc, char *argv[]) {
 	infile.open(filename, ios::in);
 
 	if (!infile.is_open()) {
-		cerr << "Open file " << filename << " failure" << endl;
-		outfile << "Open file " << filename << " failure" << endl;
+		cerr << "Open file " << filename << " failure!" << endl;
+		outfile << "Open file " << filename << " failure!" << endl;
 		return -1;
 	}
 	infile >> noskipws;
