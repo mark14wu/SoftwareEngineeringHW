@@ -239,6 +239,12 @@ int main(int argc, char *argv[]) {
 	if (num >= 0){
 		if (num > 0)
 			num_flag = true;
+		else
+		{
+			cerr << "-n 0 returns nothing!";
+			return 0;
+		}
+		
 	}
 	else{
 		cerr << "-n less than zero!" << endl;
