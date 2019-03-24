@@ -231,7 +231,7 @@ int main(int argc, char *argv[]) {
 			num_flag = true;
 	}
 	else{
-		cerr << "Input number cannot be less than zero！" << endl;
+		cerr << "-n less than zero!" << endl;
 		return -1;
 	}
 	
