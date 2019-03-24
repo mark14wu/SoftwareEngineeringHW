@@ -41,7 +41,7 @@ int most_word(int if_start, int start, int &length ,int &max_length, int start_c
 			if (end_char == 0) {
 				if (length > max_length) {
 					max_length = length;
-					printf("%d\n", max_length);
+					//printf("%d\n", max_length);
 					result.clear();
 					result.assign(temp_result.begin(), temp_result.end());
 				}
@@ -49,7 +49,7 @@ int most_word(int if_start, int start, int &length ,int &max_length, int start_c
 			else {
 				if (length > max_length && i==end_char-1) {
 					max_length = length;
-					printf("%d\n", max_length);
+					//printf("%d\n", max_length);
 					result.clear();
 					result.assign(temp_result.begin(), temp_result.end());
 				}
@@ -98,7 +98,7 @@ int most_char(int if_start, int start, int &length, int &max_length, int start_c
 			if (end_char == 0) {
 				if (length > max_length) {
 					max_length = length;
-					printf("%d %d\n", MaxCharNum, max_length);
+					//printf("%d %d\n", MaxCharNum, max_length);
 					result.clear();
 					result.assign(temp_result.begin(), temp_result.end());
 				}
@@ -106,7 +106,7 @@ int most_char(int if_start, int start, int &length, int &max_length, int start_c
 			else {
 				if (length > max_length && end_char-1==i) {
 					max_length = length;
-					printf("%d %d\n", MaxCharNum, max_length);
+					//printf("%d %d\n", MaxCharNum, max_length);
 					result.clear();
 					result.assign(temp_result.begin(), temp_result.end());
 				}
@@ -124,10 +124,10 @@ int most_char(int if_start, int start, int &length, int &max_length, int start_c
 	return n;
 }
 
-void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode num_matrix[][26], vector<string> &temp_result) {
+void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode num_matrix[][26], vector<string> &temp_result, ofstream &outfile) {
 	if (if_start == 1) {
 		for (int i = 0; i < 26; i++) {
-			n_word(0, i, length, n_length, n, num_matrix, temp_result);
+			n_word(0, i, length, n_length, n, num_matrix, temp_result, outfile);
 		}
 	}
 	for (int i = 0; i < 26; i++) {
@@ -139,12 +139,12 @@ void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode
 			if (length == n_length) {
 				n++;
 				for (vector<string>::iterator it = temp_result.begin(); it != temp_result.end(); it++) {
-					cout << *it << " ";
+					outfile << *it << " ";
 				}
-				cout << endl;
+				outfile << endl;
 			}
 			else {
-				n_word(0, i, length, n_length, n, num_matrix, temp_result);
+				n_word(0, i, length, n_length, n, num_matrix, temp_result, outfile);
 			}
 			num_matrix[start][i].wordlist.push_back(temp_result.back());
 			temp_result.pop_back();
@@ -245,7 +245,7 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 	
-	cout << filename_word << filename_char << head << tail << num << endl;
+	//cout << filename_word << filename_char << head << tail << num << endl;
 	if (filename_word.length() != 0 && filename_char.length() != 0){
 		cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
 		return -1;
@@ -287,12 +287,14 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	ifstream infile;   
+	ofstream outfile;
 	char temp_char,start_char,end_char;
 	int length = 0;
 	int word_count = 0;
 	start_char = 0;
 	string temp_string=string();
 	infile.open(filename, ios::in);
+	outfile.open("solution.txt");
 	if (!infile.is_open())
 		cout << "Open file " << filename << " failure" << endl;
 	infile >> noskipws;
@@ -343,7 +345,7 @@ int main(int argc, char *argv[]) {
 	if (word_count == 0) {
 		//error1
 	}
-
+	/*
 	for (int i = 0; i < 26; i++) {
 		for (int j = 0; j < 26; j++) {
 			for (vector<string>::iterator it = WordMatrix[i][j].wordlist.begin(); it != WordMatrix[i][j].wordlist.end(); it++)
@@ -352,7 +354,7 @@ int main(int argc, char *argv[]) {
 			 }
 		}
 	}
-
+	*/
 	/*for (int i = 0; i < 26; i++) {
 		for (int j = 0; j < 26; j++) {
 			cout << WordMatrix[i][j].word_count;
@@ -382,23 +384,27 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
-	n_word(1, 0, length1, num, n, WordMatrix, string_result);
+	n_word(1, 0, length1, num, n, WordMatrix, string_result, outfile);
 
-	printf("ans:%d\n", max_length);
-	printf("n:%d\n", n);
-	if (result.empty() == 0) {
-		for (vector<int>::iterator it = result.begin(); it != result.end() - 1; it++)
-		{
-			cout << *it << endl;
-			cout << WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1] << endl;
-			WordMatrix[*it][*(it + 1)].word_count--;
+	if (num_flag == false) {
+		if (result.empty() == 0) {
+			for (vector<int>::iterator it = result.begin(); it != result.end() - 1; it++)
+			{
+				//outfile << *it << endl;
+				outfile << WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1] << endl;
+				WordMatrix[*it][*(it + 1)].word_count--;
+			}
+		}
+		else {
+			//error 2
+			cout << "error: word chain not found !" << endl;
 		}
 	}
 	else {
-		//error 2
-		cout << "error: word chain not found !" << endl;
+		outfile.seekp(0, ios::beg);
+		outfile << n << endl;
 	}
 	infile.close(); 
-	getchar();
+	outfile.close();
 }
 
