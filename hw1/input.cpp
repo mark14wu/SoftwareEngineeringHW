@@ -176,7 +176,7 @@ int main(int argc, char *argv[]) {
 	argparser.add<string>("tail", 't', "tail character", false, "");
 
 	// given word counts, default = 0
-	argparser.add<int>("num", 'n', "given word number", false, 0);
+	argparser.add<int>("num", 'n', "given word number", false, 2147483647, cmdline::range(2, 2147483647));
 
 	// run parser
 	argparser.parse_check(argc, argv);
@@ -242,22 +242,8 @@ int main(int argc, char *argv[]) {
 
 	// getting word chain length
 	num = argparser.get<int>("num");
-	if (num >= 0){
-		if (num > 0)
-			num_flag = true;
-		else
-		{
-			cerr << "-n wrong !"; 
-			outfile << "-n wrong !";
-			return 0;
-		}
-		
-	}
-	else{
-		cerr << "-n less than zero!" << endl;
-		outfile << "-n less than zero!" << endl;
-		return -1;
-	}
+	if (num != 2147483647)
+		num_flag = true;
 	
 	if (filename_word.length() != 0 && filename_char.length() != 0){
 		cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
@@ -296,8 +282,8 @@ int main(int argc, char *argv[]) {
 	WordNode WordMatrix[26][26];
 	for (int i = 0; i < 26; i++) {
 		for (int j = 0; j < 26; j++) {
-			WordMatrix[i][j].prefix = 97 + i;
-			WordMatrix[i][j].suffix = 97 + j;
+			WordMatrix[i][j].prefix = 'a' + i;
+			WordMatrix[i][j].suffix = 'a' + j;
 			WordMatrix[i][j].word_count = 0;
 			WordMatrix[i][j].word_use = 0;
 		}
