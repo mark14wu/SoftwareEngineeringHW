@@ -244,6 +244,11 @@ int main(int argc, char *argv[]) {
 		num_flag = true;
 	
 	if (!argparser.exist("word") &&!argparser.exist("char")){
+		cerr << "Either -w or -c must be selected!" << endl;
+		outfile << "Either -w or -c must be selected!" << endl;
+		return -1;
+	}
+	else if (argparser.exist("word") && argparser.exist("char")){
 		cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
 		outfile << "-w and -c cannot be used together!(Not Implemented!)" << endl;
 		return -1;
@@ -257,12 +262,6 @@ int main(int argc, char *argv[]) {
 	else if (argparser.exist("char")){
 		char_flag = true;
 	}
-	else{
-		cerr << "Either -w or -c must be selected!" << endl;
-		outfile << "Either -w or -c must be selected!" << endl;
-		return -1;
-
-	}
 	
 	if (num_flag && char_flag){
 		cerr << "Using -c and -n together is not implemented!" << endl;
@@ -272,10 +271,10 @@ int main(int argc, char *argv[]) {
 
 	filename = argparser.rest()[0];
 
+	////////////////////////////
 	// argument parsing finished
+	////////////////////////////
 
-	/*int num_matrix[26][26] = { 0 };
-	vector<string> word_matrix[26][26];*/
 	WordNode WordMatrix[26][26];
 	for (int i = 0; i < 26; i++) {
 		for (int j = 0; j < 26; j++) {
@@ -297,6 +296,7 @@ int main(int argc, char *argv[]) {
 	if (!infile.is_open()) {
 		cerr << "Open file " << filename << " failure" << endl;
 		outfile << "Open file " << filename << " failure" << endl;
+		return -1;
 	}
 	infile >> noskipws;
 	while (!infile.eof())   
