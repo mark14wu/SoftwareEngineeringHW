@@ -245,7 +245,6 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 	
-	cout << filename_word << filename_char << head << tail << num << endl;
 	if (filename_word.length() != 0 && filename_char.length() != 0){
 		cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
 		return -1;
