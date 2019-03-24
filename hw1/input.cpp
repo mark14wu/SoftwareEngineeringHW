@@ -388,6 +388,7 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
+	n = 0;
 	n_word(1, 0, length1, num, n, WordMatrix, string_result, outfile);
 
 	if (num_flag == false) {
