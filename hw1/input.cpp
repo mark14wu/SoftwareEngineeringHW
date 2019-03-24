@@ -239,13 +239,18 @@ int main(int argc, char *argv[]) {
 	if (num >= 0){
 		if (num > 0)
 			num_flag = true;
+		else
+		{
+			cerr << "-n 0 returns nothing!";
+			return 0;
+		}
+		
 	}
 	else{
 		cerr << "-n less than zero!" << endl;
 		return -1;
 	}
 	
-	//cout << filename_word << filename_char << head << tail << num << endl;
 	if (filename_word.length() != 0 && filename_char.length() != 0){
 		cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
 		return -1;
