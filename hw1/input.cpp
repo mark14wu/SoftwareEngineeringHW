@@ -171,11 +171,11 @@ int main(int argc, char *argv[]) {
 	// counting characters, default = ""
 	argparser.add<string>("char", 'c', "character count", false, "");
 
-	// given head character, default = '\0'
-	argparser.add<char>("head", 'h', "head character", false, '\0');
+	// given head character, default = ""
+	argparser.add<string>("head", 'h', "head character", false, "");
 
-	// given tail character, default = '\0'
-	argparser.add<char>("tail", 't', "tail character", false, '\0');
+	// given tail character, default = ""
+	argparser.add<string>("tail", 't', "tail character", false, "");
 
 	// given word counts, default = 0
 	argparser.add<int>("num", 'n', "given word number", false, 0);
@@ -184,13 +184,90 @@ int main(int argc, char *argv[]) {
 	argparser.parse_check(argc, argv);
 
 	// get results
-	cout << argparser.get<string>("word");
-	cout << argparser.get<string>("char");
-	cout << argparser.get<char>("head");
-	cout << argparser.get<char>("tail");
-	cout << argparser.get<int>("num");
+	string filename_word, filename_char, buffer;
+	char head_char, tail_char;
+	int head, tail;
+	int num;
+	bool word_flag = false, char_flag = false, num_flag = false;
+
+	filename_word = argparser.get<string>("word");
+	filename_char = argparser.get<string>("char");
+	// getting head char
+	// buffer is STRING, get first char of buffer
+	buffer = argparser.get<string>("head");
+	if (buffer.length() > 1){
+		cerr << "首字母长度大于1!" << endl;
+		return -1;
+	}
+	head_char = buffer[0];
+	if ('a' <= head_char && head_char <= 'z'){
+		head = head_char - 'a' + 1;
+	}
+	else if ('A' <= head_char && head_char <= 'Z'){
+		head = head_char - 'A' + 1;
+	}
+	else{
+		cerr << "头字母不在范围内！" << endl;
+	}
+
+	// getting tail char
+	buffer = argparser.get<string>("tail");
+	if (buffer.length() > 1){
+		cerr << "尾字母长度大于1!" << endl;
+		return -1;
+	}
+	tail_char = buffer[0];
+		if ('a' <= tail_char && tail_char <= 'z'){
+		tail = tail_char - 'a' + 1;
+	}
+	else if ('A' <= tail_char && tail_char <= 'Z'){
+		tail = tail_char - 'A' + 1;
+	}
+	else{
+		cerr << "头字母不在范围内！" << endl;
+		return -1;
+	}
+
+	// getting word chain length
+	num = argparser.get<int>("num");
+	if (num >= 0){
+		if (num > 0)
+			num_flag = true;
+	}
+	else{
+		cerr << "输入数字不能为负！" << endl;
+		return -1;
+	}
+	
+	cout << filename_word << filename_char << head << tail << num << endl;
+	if (filename_word.length() != 0 && filename_char.length() != 0){
+		cerr << "不支持同时使用 -w 和 -c！" << endl;
+		return -1;
+	}
+
+	// judging work mode
+	string filename;
+
+	if (filename_word.length() != 0){
+		filename = filename_word;
+		word_flag = true;
+	}
+	else{
+		filename = filename_char;
+		char_flag = true;
+	}
+
+	if ((!word_flag) && (!char_flag)){
+		cerr << "至少选择 -w 和 -c 中的一种！" << endl;
+		return -1;
+		}
+	
+	if (num_flag && char_flag){
+		cerr << "暂不支持 -c 和 -n 同时使用！" << endl;
+		return -1;
+	}
+
 	// argument parsing finished
-	//volatil11
 
 	/*int num_matrix[26][26] = { 0 };
 	vector<string> word_matrix[26][26];*/
@@ -206,19 +283,19 @@ int main(int argc, char *argv[]) {
 	ifstream infile;   
 	char temp_char,start_char,end_char;
 	int length = 0;
-	int word_count = 0;;
+	int word_count = 0;
 	start_char = 0;
 	string temp_string=string();
-	infile.open("test.txt", ios::in);
+	infile.open(filename, ios::in);
 	if (!infile.is_open())
-		cout << "Open file failure" << endl;
+		cout << "Open file " << filename << " failure" << endl;
 	infile >> noskipws;
 	while (!infile.eof())   
 	{
 		infile >> temp_char;
-		if (temp_char >= 65 && temp_char <= 90)
-			temp_char = temp_char + 32;
-		if (temp_char >= 97 && temp_char <= 122) {
+		if (temp_char >= 'A' && temp_char <= 'Z')
+			temp_char = temp_char + 'a' - 'A';
+		if (temp_char >= 'a' && temp_char <= 'z') {
 			length++;
 			if (start_char == 0)
 				start_char = temp_char;
@@ -277,16 +354,30 @@ int main(int argc, char *argv[]) {
 		cout << endl;
 
 	}*/
-	//����1
+	///////////////----preprocessing finished----////////////
+	/////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////
+
 	int length1 = 0;
 	int max_length = 0;
 	vector<int> result;
 	vector<int> temp_result;
 	vector<string> string_result;
 
-	//int n = most_word(1, 0, length1, max_length , 0, 0, WordMatrix, result, temp_result);
-	//int n = most_char (1, 0, length1, max_length, 1, 14, WordMatrix, result, temp_result);
-	int n=0; n_word(1, 0, length1, 3, n, WordMatrix, string_result);
+	int n; // n is the length of word chain
+	if (word_flag){
+		n = most_word(1, 0, length1, max_length , head, tail, WordMatrix, result, temp_result);	
+	}
+	else if (char_flag){
+		n = most_char (1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
+	}
+	else{
+		cerr << "flag exception!" << endl;
+		return -1;
+	}
+
+	n_word(1, 0, length1, num, n, WordMatrix, string_result);
+
 	printf("ans:%d\n", max_length);
 	printf("n:%d\n", n);
 	if (result.empty() == 0) {
