@@ -1,0 +1,10 @@
+
+History
+Main article: History of wikis
+
+Wiki Wiki Shuttle at Honolulu International Airport
+WikiWikiWeb was the first wiki.[12] Ward Cunningham started developing WikiWikiWeb in Portland, Oregon, in 1994, and installed it on the Internet domain c2.com on March 25, 1995. It was named by Cunningham, who remembered a Honolulu International Airport counter employee telling him to take the "Wiki Wiki Shuttle" bus that runs between the airport's terminals. According to Cunningham, "I chose wiki-wiki as an alliterative substitute for 'quick' and thereby avoided naming this stuff quick-web."[13][14]
+
+Cunningham was, in part, inspired by Apple Inc.'s HyperCard, which he had used. HyperCard, however, was single-user.[15] Apple had designed a system allowing users to create virtual "card stacks" supporting links among the various cards. Cunningham developed Vannevar Bush's ideas by allowing users to "comment on and change one another's text."[1][16] Cunningham says his goals were to link together people's experiences to create a new literature to document programming patterns, and to harness people's natural desire to talk and tell stories with a technology that would feel comfortable to those not used to "authoring".[15]
+
+Wikipedia became the most famous wiki site, entering the top ten most popular websites in 2007. In the early 2000s (decade), wikis were increasingly adopted in enterprise as collaborative software. Common uses included project communication, intranets, and documentation, initially for technical users. Some companies use wikis as their only collaborative software and as a replacement for static intranets, and some schools and universities use wikis to enhance group learning. There may be greater use of wikis behind firewalls than on the public Internet. On March 15, 2007, the word wiki was listed in the online Oxford English Dictionary.[17]

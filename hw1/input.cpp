@@ -322,6 +322,7 @@ int main(int argc, char *argv[]) {
 						if_repeat = true;
 				}
 				if (!if_repeat) {
+					cout << temp_string << endl;
 					vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin();
 					while (it != WordMatrix[start_index][end_index].wordlist.end()) {
 						if ((*it).length() <= temp_string.length())
@@ -339,7 +340,7 @@ int main(int argc, char *argv[]) {
 			start_char = 0;
 		}
 	}
-
+	cout << word_count << endl;
 	if (word_count == 0) {
 		//error1
 		cerr << "word not found!" << endl;
