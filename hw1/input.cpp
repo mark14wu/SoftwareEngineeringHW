@@ -160,6 +160,8 @@ void parse_args(){
 int main(int argc, char *argv[]) {
 	// parsing arguments
 	cmdline::parser argparser;
+	ofstream outfile;
+	outfile.open("solution.txt");
 	
 	// counting word numbers, default = ""
 	argparser.add<string>("word", 'w', "word count", false, "");
@@ -193,6 +195,7 @@ int main(int argc, char *argv[]) {
 	buffer = argparser.get<string>("head");
 	if (buffer.length() > 1){
 		cerr << "length of head character is greater than 1!" << endl;
+		outfile << "length of head character is greater than 1!" << endl;
 		return -1;
 	}
 	head_char = buffer[0];
@@ -205,6 +208,7 @@ int main(int argc, char *argv[]) {
 		}
 		else{
 			cerr << "head character is not in the range(a-z, A-Z)!" << endl;
+			outfile << "head character is not in the range(a-z, A-Z)!" << endl;
 		}
 	}
 	else{
@@ -215,6 +219,7 @@ int main(int argc, char *argv[]) {
 	buffer = argparser.get<string>("tail");
 	if (buffer.length() > 1){
 		cerr << "length of tail character is greater than 1!" << endl;
+		outfile << "length of tail character is greater than 1!" << endl;
 		return -1;
 	}
 	tail_char = buffer[0];
@@ -227,6 +232,7 @@ int main(int argc, char *argv[]) {
 		}
 		else{
 			cerr << "head character is not in the range(a-z, A-Z)!" << endl;
+			outfile << "head character is not in the range(a-z, A-Z)!" << endl;
 			return -1;
 		}
 	}
@@ -241,18 +247,21 @@ int main(int argc, char *argv[]) {
 			num_flag = true;
 		else
 		{
-			cerr << "-n 0 returns nothing!";
+			cerr << "-n wrong !"; 
+			outfile << "-n wrong !";
 			return 0;
 		}
 		
 	}
 	else{
 		cerr << "-n less than zero!" << endl;
+		outfile << "-n less than zero!" << endl;
 		return -1;
 	}
 	
 	if (filename_word.length() != 0 && filename_char.length() != 0){
 		cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
+		outfile << "-w and -c cannot be used together!(Not Implemented!)" << endl;
 		return -1;
 	}
 
@@ -270,11 +279,13 @@ int main(int argc, char *argv[]) {
 
 	if ((!word_flag) && (!char_flag)){
 		cerr << "Either -w or -c must be selected!" << endl;
+		outfile << "Either -w or -c must be selected!" << endl;
 		return -1;
 		}
 	
 	if (num_flag && char_flag){
 		cerr << "Using -c and -n together is not implemented!" << endl;
+		outfile << "Using -c and -n together is not implemented!" << endl;
 		return -1;
 	}
 
@@ -292,16 +303,18 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	ifstream infile;   
-	ofstream outfile;
+	
 	char temp_char,start_char,end_char;
 	int length = 0;
 	int word_count = 0;
 	start_char = 0;
 	string temp_string=string();
 	infile.open(filename, ios::in);
-	outfile.open("solution.txt");
-	if (!infile.is_open())
+
+	if (!infile.is_open()) {
 		cout << "Open file " << filename << " failure" << endl;
+		outfile << "Open file " << filename << " failure" << endl;
+	}
 	infile >> noskipws;
 	while (!infile.eof())   
 	{
