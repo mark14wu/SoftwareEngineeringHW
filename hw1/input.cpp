@@ -16,7 +16,6 @@ int most_word(int if_start, int start, int &length ,int &max_length, int start_c
 	if (if_start == 1) {
 		if (start_char == 0) {
 			int n = 0;
-			int best_i;
 			for (int i = 0; i < 26; i++) {
 				temp_result.clear();
 				temp_result.push_back(i);
@@ -34,7 +33,6 @@ int most_word(int if_start, int start, int &length ,int &max_length, int start_c
 		}
 	}
 	int n = 0;
-	int best_i;
 	for (int i = 0; i < 26; i++) {
 		if (num_matrix[start][i].word_count > 0) {
 			num_matrix[start][i].word_count--;
@@ -72,7 +70,6 @@ int most_char(int if_start, int start, int &length, int &max_length, int start_c
 	if (if_start == 1) {
 		if (start_char == 0) {
 			int n = 0;
-			int best_i;
 			for (int i = 0; i < 26; i++) {
 				temp_result.clear();
 				temp_result.push_back(i);
@@ -90,7 +87,6 @@ int most_char(int if_start, int start, int &length, int &max_length, int start_c
 		}
 	}
 	int n = 0;
-	int best_i;
 	for (int i = 0; i < 26; i++) {
 		if (num_matrix[start][i].word_count > 0) {
 			num_matrix[start][i].word_count--;
