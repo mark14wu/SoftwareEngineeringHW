@@ -129,8 +129,7 @@ public:
 		return n;
 	}
 
-	static void gen_chain_n_word(vector<string> &words, int len, int num, vector<string> &result, ofstream &outfile) {
-		result.clear();
+	static void gen_chain_n_word(vector<string> &words, int len, int num, ofstream &outfile) {
 		WordNode WordMatrix[26][26];
 		for (int i = 0; i < 26; i++) {
 			for (int j = 0; j < 26; j++) {
@@ -157,8 +156,8 @@ public:
 		}
 		int length = 0;
 		int n = 0;
-		vector<string> string_result;
-		n_word(1, 0, length, num, n, WordMatrix, string_result, outfile);
+		vector<string> temp_result;
+		n_word(1, 0, length, num, n, WordMatrix, temp_result, outfile);
 	}
 private:	
 	static int most_word(int if_start, int start, int &length ,int &max_length, int start_char, int end_char, WordNode num_matrix[][26], vector<int> &result, vector<int> &temp_result) {

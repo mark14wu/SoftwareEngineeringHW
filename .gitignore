@@ -4,16 +4,4 @@
 hw1/a.out
 hw1/solution.txt
 hw1/test.txt
-.vscode/ipch/1b8c6d13682269bc/mmap_address.bin
-.vscode/ipch/333d66e31f7e5357/mmap_address.bin
-.vscode/ipch/4e50ec18df972228/mmap_address.bin
-.vscode/ipch/1b8c6d13682269bc/Core.ipch
-.vscode/ipch/770b538d8eed8a88/input.ipch
-.vscode/ipch/770b538d8eed8a88/mmap_address.bin
-.vscode/ipch/c43772f46149d67f/mmap_address.bin
-.vscode/ipch/4e50ec18df972228/ut_gen_chain_word.ipch
-.vscode/ipch/88452dc4dd42448d/mmap_address.bin
-.vscode/ipch/88452dc4dd42448d/sample.ipch
-.vscode/ipch/44009f5725faac39/mmap_address.bin
-.vscode/ipch/44009f5725faac39/ut_gen_chain.ipch
-.vscode/ipch/749b8041a14e2240/mmap_address.bin
+.vscode/ipch

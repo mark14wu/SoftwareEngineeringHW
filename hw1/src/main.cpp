@@ -1,6 +1,6 @@
 #include <fstream>
 #include "cmdline.h"
-#include "Core.h"
+#include "Core.cpp"
 
 using namespace std;
 
@@ -210,14 +210,15 @@ int main(int argc, char *argv[]) {
 	int new_n;
 	if (word_flag){
 		if (!num_flag) {
-			n = most_word(1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
+			// n = most_word(1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
 			new_n = Core::gen_chain_word(WordChain, WordChain.size(), new_result,head_char,end_char);
 			cout << "n1=" << n << endl;
 			cout << "n2=" << new_n << endl;
 		}
 	}
 	else if (char_flag){
-		n = most_char (1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
+		// n = most_char (1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
+		new_n = Core::gen_chain_char(WordChain, WordChain.size(), new_result);
 	}
 	else{
 		cerr << "flag exception!" << endl;
@@ -226,7 +227,8 @@ int main(int argc, char *argv[]) {
 	}
 	n = 0;
 	if (num_flag == true)
-		n_word(1, 0, length1, num, n, WordMatrix, string_result, outfile);
+		// n_word(1, 0, length1, num, n, WordMatrix, string_result, outfile);
+		Core::gen_chain_n_word(WordChain, WordChain.size(), num, new_result, outfile);
 
 	if (num_flag == false) {
 		if (result.size() > 2) {
@@ -254,5 +256,3 @@ int main(int argc, char *argv[]) {
 	infile.close(); 
 	outfile.close();
 }
-
-
