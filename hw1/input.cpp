@@ -125,6 +125,10 @@ int most_char(int if_start, int start, int &length, int &max_length, int start_c
 }
 
 void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode num_matrix[][26], vector<string> &temp_result, ofstream &outfile) {
+	for (vector<string>::iterator it = temp_result.begin(); it != temp_result.end(); it++) {
+		cout << *it << " ";
+	}
+	cout << endl;
 	if (if_start == 1) {
 		for (int i = 0; i < 26; i++) {
 			n_word(0, i, length, n_length, n, num_matrix, temp_result, outfile);
@@ -140,8 +144,10 @@ void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode
 				n++;
 				for (vector<string>::iterator it = temp_result.begin(); it != temp_result.end(); it++) {
 					outfile << *it << " ";
+					cout << *it << " ";
 				}
 				outfile << endl;
+				cout << endl;
 			}
 			else {
 				n_word(0, i, length, n_length, n, num_matrix, temp_result, outfile);
@@ -153,6 +159,164 @@ void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode
 		}
 	}
 }
+
+class Core {
+public:
+	static int gen_chain(vector<string> &words, int len, vector<string> &result) {
+		result.clear();
+		WordNode WordMatrix[26][26];
+		for (int i = 0; i < 26; i++) {
+			for (int j = 0; j < 26; j++) {
+				WordMatrix[i][j].prefix = 'a' + i;
+				WordMatrix[i][j].suffix = 'a' + j;
+				WordMatrix[i][j].word_count = 0;
+				WordMatrix[i][j].word_use = 0;
+			}
+		}
+		for (vector<string>::iterator it1 = words.begin(); it1 != words.end(); it1++) {
+			string temp_string(*it1);
+			int start_index, end_index;
+			start_index = temp_string.at(0) - 97;
+			end_index = temp_string.at(temp_string.length() - 1)-97;
+			vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin();
+			while (it != WordMatrix[start_index][end_index].wordlist.end()) {
+				if ((*it).length() <= temp_string.length())
+					it++;
+				else
+					break;
+			}
+			WordMatrix[start_index][end_index].wordlist.insert(it, temp_string);
+			WordMatrix[start_index][end_index].word_count++;
+		}
+		int head = 0;
+		int tail = 0;
+		int length = 0;
+		int max_length = 0;
+		vector<int> int_result;
+		vector<int> temp_result;
+		int n = most_word(1, 0, length, max_length, head, tail, WordMatrix, int_result, temp_result);
+		for (vector<int>::iterator it = int_result.begin(); it != int_result.end() - 1; it++)
+		{
+			result.push_back(WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1]);
+			WordMatrix[*it][*(it + 1)].word_count--;
+		}
+		return n;
+	}
+
+	static int gen_chain_char(vector<string> &words, int len, vector<string> &result) {
+		result.clear();
+		WordNode WordMatrix[26][26];
+		for (int i = 0; i < 26; i++) {
+			for (int j = 0; j < 26; j++) {
+				WordMatrix[i][j].prefix = 'a' + i;
+				WordMatrix[i][j].suffix = 'a' + j;
+				WordMatrix[i][j].word_count = 0;
+				WordMatrix[i][j].word_use = 0;
+			}
+		}
+		for (vector<string>::iterator it1 = words.begin(); it1 != words.end(); it1++) {
+			string temp_string(*it1);
+			int start_index, end_index;
+			start_index = temp_string.at(0) - 97;
+			end_index = temp_string.at(temp_string.length() - 1) - 97;
+			vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin();
+			while (it != WordMatrix[start_index][end_index].wordlist.end()) {
+				if ((*it).length() <= temp_string.length())
+					it++;
+				else
+					break;
+			}
+			WordMatrix[start_index][end_index].wordlist.insert(it, temp_string);
+			WordMatrix[start_index][end_index].word_count++;
+		}
+		int head = 0;
+		int tail = 0;
+		int length = 0;
+		int max_length = 0;
+		vector<int> int_result;
+		vector<int> temp_result;
+		int n = most_char(1, 0, length, max_length, head, tail, WordMatrix, int_result, temp_result);
+		for (vector<int>::iterator it = int_result.begin(); it != int_result.end() - 1; it++)
+		{
+			result.push_back(WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1]);
+			WordMatrix[*it][*(it + 1)].word_count--;
+		}
+		return n;
+	}
+
+	static int gen_chain_word(vector<string> &words, int len, vector<string> &result, char head, char tail) {
+		result.clear();
+		WordNode WordMatrix[26][26];
+		for (int i = 0; i < 26; i++) {
+			for (int j = 0; j < 26; j++) {
+				WordMatrix[i][j].prefix = 'a' + i;
+				WordMatrix[i][j].suffix = 'a' + j;
+				WordMatrix[i][j].word_count = 0;
+				WordMatrix[i][j].word_use = 0;
+			}
+		}
+		for (vector<string>::iterator it1 = words.begin(); it1 != words.end(); it1++) {
+			string temp_string(*it1);
+			int start_index, end_index;
+			start_index = temp_string.at(0) - 97;
+			end_index = temp_string.at(temp_string.length() - 1) - 97;
+			vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin();
+			while (it != WordMatrix[start_index][end_index].wordlist.end()) {
+				if ((*it).length() <= temp_string.length())
+					it++;
+				else
+					break;
+			}
+			WordMatrix[start_index][end_index].wordlist.insert(it, temp_string);
+			WordMatrix[start_index][end_index].word_count++;
+		}
+		int head_int = head- 'a' + 1;
+		int tail_int = tail- 'a' + 1;
+		int length = 0;
+		int max_length = 0;
+		vector<int> int_result;
+		vector<int> temp_result;
+		int n = most_word(1, 0, length, max_length, head_int, tail_int, WordMatrix, int_result, temp_result);
+		for (vector<int>::iterator it = int_result.begin(); it != int_result.end() - 1; it++)
+		{
+			result.push_back(WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1]);
+			WordMatrix[*it][*(it + 1)].word_count--;
+		}
+		return n;
+	}
+
+	static void gen_chain_n_word(vector<string> &words, int len, int num, vector<string> &result, ofstream &outfile) {
+		result.clear();
+		WordNode WordMatrix[26][26];
+		for (int i = 0; i < 26; i++) {
+			for (int j = 0; j < 26; j++) {
+				WordMatrix[i][j].prefix = 'a' + i;
+				WordMatrix[i][j].suffix = 'a' + j;
+				WordMatrix[i][j].word_count = 0;
+				WordMatrix[i][j].word_use = 0;
+			}
+		}
+		for (vector<string>::iterator it1 = words.begin(); it1 != words.end(); it1++) {
+			string temp_string(*it1);
+			int start_index, end_index;
+			start_index = temp_string.at(0) - 97;
+			end_index = temp_string.at(temp_string.length() - 1) - 97;
+			vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin();
+			while (it != WordMatrix[start_index][end_index].wordlist.end()) {
+				if ((*it).length() <= temp_string.length())
+					it++;
+				else
+					break;
+			}
+			WordMatrix[start_index][end_index].wordlist.insert(it, temp_string);
+			WordMatrix[start_index][end_index].word_count++;
+		}
+		int length = 0;
+		int n = 0;
+		vector<string> string_result;
+		n_word(1, 0, length, num, n, WordMatrix, string_result, outfile);
+	}
+};
 
 void parse_args(){
 
@@ -253,7 +417,7 @@ int main(int argc, char *argv[]) {
 		outfile << "-w and -c cannot be used together!(Not Implemented!)" << endl;
 		return -1;
 	}
-
+	
 	// judging work mode
 
 	if (argparser.exist("word")){
@@ -276,6 +440,7 @@ int main(int argc, char *argv[]) {
 	////////////////////////////
 
 	WordNode WordMatrix[26][26];
+	vector<string> WordChain;
 	for (int i = 0; i < 26; i++) {
 		for (int j = 0; j < 26; j++) {
 			WordMatrix[i][j].prefix = 'a' + i;
@@ -322,7 +487,8 @@ int main(int argc, char *argv[]) {
 						if_repeat = true;
 				}
 				if (!if_repeat) {
-					cout << temp_string << endl;
+					//cout << temp_string << endl;
+					WordChain.push_back(temp_string);
 					vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin();
 					while (it != WordMatrix[start_index][end_index].wordlist.end()) {
 						if ((*it).length() <= temp_string.length())
@@ -356,10 +522,16 @@ int main(int argc, char *argv[]) {
 	vector<int> result;
 	vector<int> temp_result;
 	vector<string> string_result;
-
+	vector<string> new_result;
 	int n; // n is the length of word chain
+	int new_n;
 	if (word_flag){
-		n = most_word(1, 0, length1, max_length , head, tail, WordMatrix, result, temp_result);	
+		if (!num_flag) {
+			n = most_word(1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
+			new_n = Core::gen_chain_word(WordChain, WordChain.size(), new_result,head_char,end_char);
+			cout << "n1=" << n << endl;
+			cout << "n2=" << new_n << endl;
+		}
 	}
 	else if (char_flag){
 		n = most_char (1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
@@ -369,18 +541,20 @@ int main(int argc, char *argv[]) {
 		outfile << "flag exception!" << endl;
 		return -1;
 	}
-
 	n = 0;
 	if (num_flag == true)
 		n_word(1, 0, length1, num, n, WordMatrix, string_result, outfile);
 
 	if (num_flag == false) {
-		if (result.empty() == 0) {
+		if (result.size() > 2) {
 			for (vector<int>::iterator it = result.begin(); it != result.end() - 1; it++)
 			{
 				//outfile << *it << endl;
 				outfile << WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1] << endl;
 				WordMatrix[*it][*(it + 1)].word_count--;
+			}
+			for (vector<string>::iterator it = new_result.begin(); it != new_result.end(); it++) {
+				outfile << *it << endl;
 			}
 		}
 		else {
@@ -397,4 +571,5 @@ int main(int argc, char *argv[]) {
 	infile.close(); 
 	outfile.close();
 }
+
 
