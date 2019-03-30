@@ -114,8 +114,10 @@ public:
 			WordMatrix[start_index][end_index].wordlist.insert(it, temp_string);
 			WordMatrix[start_index][end_index].word_count++;
 		}
-		int head_int = head- 'a' + 1;
-		int tail_int = tail- 'a' + 1;
+		int head_int;
+		if (head) head_int = head - 'a' + 1;
+		int tail_int;
+		if (tail) tail_int = tail - 'a' + 1;
 		int length = 0;
 		int max_length = 0;
 		vector<int> int_result;

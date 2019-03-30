@@ -7,7 +7,7 @@ using namespace std;
 class ArgParser{
     public:
         static void parse(int argc, char *argv[],
-        string &filename, int &head, int &tail, int &num, bool &word_flag, bool &char_flag, bool &num_flag){
+        string &filename, char &head, char &tail, int &num, bool &word_flag, bool &char_flag, bool &num_flag){
             // parsing arguments
             cmdline::parser argparser;
             
@@ -31,7 +31,7 @@ class ArgParser{
 
             // get results
             string buffer;
-            char head_char, tail_char;
+            char head_char, tail_char;  // raw head and tail chars without checking
 
             // getting head char
             // buffer is STRING, get first char of buffer
@@ -44,10 +44,10 @@ class ArgParser{
             head_char = buffer[0];
             if (head_char != '\0'){
                 if ('a' <= head_char && head_char <= 'z'){
-                    head = head_char - 'a' + 1;
+                    head = head_char;
                 }
                 else if ('A' <= head_char && head_char <= 'Z'){
-                    head = head_char - 'A' + 1;
+                    head = head_char;
                 }
                 else{
                     cerr << "head character is not in the range(a-z, A-Z)!" << endl;
@@ -68,10 +68,10 @@ class ArgParser{
             tail_char = buffer[0];
             if (tail_char != '\0'){
                 if ('a' <= tail_char && tail_char <= 'z'){
-                    tail = tail_char - 'a' + 1;
+                    tail = tail_char;
                 }
                 else if ('A' <= tail_char && tail_char <= 'Z'){
-                    tail = tail_char - 'A' + 1;
+                    tail = tail_char;
                 }
                 else{
                     cerr << "head character is not in the range(a-z, A-Z)!" << endl;
