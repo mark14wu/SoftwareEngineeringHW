@@ -4,12 +4,9 @@
 #include <vector>
 #include <fstream>
 
-using namespace std;
+extern int main(int, char **);
 
-int main(int argc, char** argv){
-    testing::InitGoogleMock(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+using namespace std;
 
 TEST(gen_chain_test, NullTest){
     vector<string> words;
