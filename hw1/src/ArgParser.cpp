@@ -85,8 +85,9 @@ class ArgParser{
 
             // getting word chain length
             num = argparser.get<int>("num");
-            if (num != 2147483647)
-                num_flag = true;
+            if (num != 2147483647) num_flag = true;
+            else num_flag = false;
+
             
             if (!argparser.exist("word") &&!argparser.exist("char")){
                 cerr << "Either -w or -c must be selected!" << endl;
@@ -101,12 +102,11 @@ class ArgParser{
             
             // judging work mode
 
-            if (argparser.exist("word")){
-                word_flag = true;
-            }
-            else if (argparser.exist("char")){
-                char_flag = true;
-            }
+            if (argparser.exist("word")) word_flag = true;
+            else word_flag = false;
+            
+            if (argparser.exist("char")) char_flag = true;
+            else char_flag = false;
             
             if (num_flag && char_flag){
                 cerr << "Using -c and -n together is not implemented!" << endl;
