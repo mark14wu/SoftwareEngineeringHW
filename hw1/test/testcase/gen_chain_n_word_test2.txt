@@ -1,0 +1,9 @@
+ab bc cd de ef 
+bc cd de ef fa 
+cd de ef fa ab 
+da ab bc cd de 
+de ef fa ab bc 
+ef fa ab bc cd 
+fa ab bc cd da 
+fa ab bc cd de 
+ab bc cd de ef 

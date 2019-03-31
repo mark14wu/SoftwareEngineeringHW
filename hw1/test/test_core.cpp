@@ -1,6 +1,8 @@
 #include "gmock/gmock.h"
 #include "../src/Core.cpp"
 #include <string>
+#include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -9,19 +11,147 @@ int main(int argc, char** argv){
     return RUN_ALL_TESTS();
 }
 
-// Test Failed
-/*
-TEST(GenChainTest, case1_NullTest){
+TEST(gen_chain_test, NullTest){
     vector<string> words;
     vector<string> results;
-    int len = Core::gen_chain(words, words.size(), results);
+    int len = Core::gen_chain(words, results);
     ASSERT_EQ(len, 0);
     ASSERT_TRUE(words.empty());
     ASSERT_TRUE(results.empty());
 }
-*/
 
-Test(GenChainTest, case2){
-    
+
+TEST(gen_chain_test, LoopTest){
+    vector<string> input = {"aab", "bbc", "ccd", "dda"};
+    vector<string> results;
+    vector<string> expected = {"aab", "bbc", "ccd", "dda"};
+    int len = Core::gen_chain(input, results);
+    ASSERT_EQ(len, 4);
+    ASSERT_EQ(results, expected);
+}
+TEST(gen_chain_test, SingleCharLoop){
+    vector<string> input = {"a", "aa", "aaa", "aaaa"};
+    vector<string> results;
+    vector<string> expected = { "aaaa", "aaa", "aa", "a" };
+    // 算法中有一个步骤是将开头和结尾相同的单词列按照长度倒序排列，因此结果如上所示
+    int len = Core::gen_chain(input, results);
+    ASSERT_EQ(len, 4);
+    ASSERT_EQ(results, expected);
+}
+TEST(gen_chain_test, SingleCharBigLoop){
+    vector<string> input = {"a","aaa","aa","aaaaaaaaaaaa","aaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaa","aaaaa","aaaaaaaa", 
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaa","aaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaa","aaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaaaaaa","aaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaa"};
+    vector<string> results;
+    vector<string> expected = { "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaa",
+    "aaaaaaaaaaaa", "aaaaaaaaa", "aaaaaaaa", "aaaaaaaa", "aaaaaaa", "aaaaa", "aaa", "aa", "a" };
+    int len = Core::gen_chain(input, results);
+    ASSERT_EQ(len, 19);
+    ASSERT_EQ(results, expected);
 }
 
+TEST(gen_chain_char_test, NullTest){
+    vector<string> words;
+    vector<string> results;
+    int len = Core::gen_chain_char(words, results);
+    ASSERT_EQ(len, 0);
+    ASSERT_TRUE(words.empty());
+    ASSERT_TRUE(results.empty());
+}
+
+TEST(gen_chain_char_test, MostCharCount){
+    vector<string> input = {"ab", "bc", "cd", "de", "ef", "fg", "gh", "hi", 
+    "zbakjsdoifajsodjifasjofjksfoasfjoaisdfjaiosdjfosdfjodsajfoisadjfodsfosdjfosdfodsafiodsfioadsjfodsajfiodsj",
+    "jlqkjweojojosfjoasjkfojsfosajfl;sjlfsjflsajflksajflsjflasjflasjflsadjflsdjfladsjfkdls"};
+    // 测试其是否计算了字符数而不是单词数
+    vector<string> results;
+    vector<string> expected = 
+    { "zbakjsdoifajsodjifasjofjksfoasfjoaisdfjaiosdjfosdfjodsajfoisadjfodsfosdjfosdfodsafiodsfioadsjfodsajfiodsj", "jlqkjweojojosfjoasjkfojsfosajfl;sjlfsjflsajflksajflsjflasjflasjflsadjflsdjfladsjfkdls" };
+    int len = Core::gen_chain_char(input, results);
+    ASSERT_EQ(len, 190);
+    ASSERT_EQ(results, expected);
+}
+
+TEST(gen_chain_word_test, NullTest){
+    vector<string> input;
+    vector<string> results;
+    int len = Core::gen_chain_word(input, results, '\0', '\0');
+    ASSERT_TRUE(input.empty());
+    ASSERT_TRUE(results.empty());
+}
+
+TEST(gen_chain_word_test, GivenNullChar){
+    vector<string> input = {"ab", "bc", "cd", "de", "da", "ef"};
+    vector<string> results;
+    vector<string> expected = { "da", "ab", "bc", "cd", "de", "ef" };
+    int len = Core::gen_chain_word(input, results, '\0', '\0');
+    ASSERT_EQ(len, 6);
+    ASSERT_EQ(expected, results);
+}
+
+TEST(gen_chain_word_test, GivenHeadChar){
+    vector<string> input = {"ab", "bc", "cd", "de", "da", "ef", "fa"};
+    vector<string> results;
+    vector<string> expected = { "ef", "fa", "ab", "bc", "cd", "da" };
+    int len = Core::gen_chain_word(input, results, 'e', '\0');
+    ASSERT_EQ(len, 6);
+    ASSERT_EQ(expected, results);
+}
+
+TEST(gen_chain_word_test, GivenTailChar){
+    vector<string> input = {"ab", "bc", "cd", "de", "da", "ef", "fa"};
+    vector<string> results;
+    vector<string> expected = { "da", "ab", "bc", "cd", "de", "ef" };
+    int len = Core::gen_chain_word(input, results, '\0', 'f');
+    ASSERT_EQ(len, 7);
+    ASSERT_EQ(expected, results);
+}
+
+TEST(gen_chain_word_test, GivenBothChar){
+    vector<string> input = {"ab", "bc", "cd", "de", "da", "ef"};
+    vector<string> results;
+    vector<string> expected = { "ab", "bc", "cd", "da" };
+    int len = Core::gen_chain_word(input, results, 'a', 'a');
+    ASSERT_EQ(len, 5);
+    ASSERT_EQ(expected, results);
+}
+
+TEST(gen_chain_n_word_test, NullTest){
+    vector<string> input;
+    ofstream outfile;
+    outfile.open("testcase/gen_chain_n_word_test1.txt");
+    Core::gen_chain_n_word(input, 0, outfile);
+    outfile.close();
+}
+
+TEST(gen_chain_n_word_test, Test1){
+    vector<string> input = {"ab", "bc", "cd", "de", "da", "ef", "fa"};
+    ofstream outfile;
+    outfile.open("testcase/gen_chain_n_word_test2.txt");
+    Core::gen_chain_n_word(input, 5, outfile);
+    outfile.close();
+}
+
+TEST(gen_chain_n_word_test, Test2){
+    vector<string> input = {"ab", "bc", "cd", "de", "da", "ef", "fa"};
+    ofstream outfile;
+    outfile.open("testcase/gen_chain_n_word_test3.txt");
+    Core::gen_chain_n_word(input, 2, outfile);
+    outfile.close();
+}
+
+TEST(gen_chain_n_word_test, Test3){
+    vector<string> input = {"ab", "bc", "cd", "de", "da", "ef", "fa"};
+    ofstream outfile;
+    outfile.open("testcase/gen_chain_n_word_test4.txt");
+    Core::gen_chain_n_word(input, 10, outfile);
+    outfile.close();
+}

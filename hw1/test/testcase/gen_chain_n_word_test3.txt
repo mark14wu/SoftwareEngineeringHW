@@ -1,0 +1,9 @@
+ab bc 
+bc cd 
+cd da 
+cd de 
+da ab 
+de ef 
+ef fa 
+fa ab 
+ab bc 
