@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include "WordNode.cpp"
+#include "WordNode.h"
 
 using namespace std;
 
@@ -82,4 +82,4 @@ class PreProcessing{
                 exit(-1);
             }
         }
-}
+};

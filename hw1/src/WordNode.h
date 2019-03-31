@@ -1,5 +1,8 @@
 #include <vector>
 
+#ifndef WORDNODE
+#define WORDNODE 1
+
 class WordNode{
 public:
     char prefix;
@@ -8,3 +11,5 @@ public:
     int word_count;
     int word_use;
 };
+
+#endif

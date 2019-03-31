@@ -1,5 +1,2 @@
 all:
-	g++ input.cpp
-
-clean:
-	rm a.out
+	g++ src/main.cpp -std=c++11

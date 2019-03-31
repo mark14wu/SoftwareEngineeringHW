@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "WordNode.cpp"
+#include "WordNode.h"
 using namespace std;
 
 class Core {
