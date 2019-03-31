@@ -7,8 +7,9 @@ using namespace std;
 
 class Core {
 public:
-	static int gen_chain(vector<string> words, int len, vector<string> &result) {
+	static int gen_chain(vector<string> words, vector<string> &result) {
 		result.clear();
+		if (words.empty()) return 0;	// if input is NULL
 		WordNode WordMatrix[26][26];
 		for (int i = 0; i < 26; i++) {
 			for (int j = 0; j < 26; j++) {
@@ -48,8 +49,9 @@ public:
 		return n;
 	}
 
-	static int gen_chain_char(vector<string> words, int len, vector<string> &result) {
+	static int gen_chain_char(vector<string> words, vector<string> &result) {
 		result.clear();
+		if (words.empty()) return 0;	// NULL input
 		WordNode WordMatrix[26][26];
 		for (int i = 0; i < 26; i++) {
 			for (int j = 0; j < 26; j++) {
@@ -89,7 +91,7 @@ public:
 		return n;
 	}
 
-	static int gen_chain_word(vector<string> words, int len, vector<string> &result, char head, char tail) {
+	static int gen_chain_word(vector<string> words, vector<string> &result, char head, char tail) {
 		result.clear();
 		WordNode WordMatrix[26][26];
 		for (int i = 0; i < 26; i++) {
@@ -117,8 +119,10 @@ public:
 		}
 		int head_int;
 		if (head) head_int = head - 'a' + 1;
+		else head_int = 0;
 		int tail_int;
 		if (tail) tail_int = tail - 'a' + 1;
+		else tail_int = 0;
 		int length = 0;
 		int max_length = 0;
 		vector<int> int_result;
@@ -132,7 +136,7 @@ public:
 		return n;
 	}
 
-	static void gen_chain_n_word(vector<string> words, int len, int num, ofstream &outfile) {
+	static void gen_chain_n_word(vector<string> words, int num, ofstream &outfile) {
 		WordNode WordMatrix[26][26];
 		for (int i = 0; i < 26; i++) {
 			for (int j = 0; j < 26; j++) {
