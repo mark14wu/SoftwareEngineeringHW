@@ -37,9 +37,8 @@ class ArgParser{
             // buffer is STRING, get first char of buffer
             buffer = argparser.get<string>("head");
             if (buffer.length() > 1){
-                cerr << "length of head character is greater than 1!" << endl;
-                // outfile << "length of head character is greater than 1!" << endl;
-                exit(-1);
+                throw length_error("head character length error!");
+                // cerr << "length of head character is greater than 1!" << endl;
             }
             head_char = buffer[0];
             if (head_char != '\0'){
@@ -50,8 +49,8 @@ class ArgParser{
                     head = head_char;
                 }
                 else{
-                    cerr << "head character is not in the range(a-z, A-Z)!" << endl;
-                    // outfile << "head character is not in the range(a-z, A-Z)!" << endl;
+                    throw out_of_range("head character is not in the range(a-z, A-Z)!");
+                    // cerr << "head character is not in the range(a-z, A-Z)!" << endl;
                 }
             }
             else{
@@ -61,9 +60,8 @@ class ArgParser{
             // getting tail char
             buffer = argparser.get<string>("tail");
             if (buffer.length() > 1){
-                cerr << "length of tail character is greater than 1!" << endl;
+                throw length_error("tail character length error!");
                 // outfile << "length of tail character is greater than 1!" << endl;
-                exit(-1);
             }
             tail_char = buffer[0];
             if (tail_char != '\0'){
@@ -74,9 +72,8 @@ class ArgParser{
                     tail = tail_char;
                 }
                 else{
-                    cerr << "head character is not in the range(a-z, A-Z)!" << endl;
-                    // outfile << "head character is not in the range(a-z, A-Z)!" << endl;
-                    exit(-1);
+                    // cerr << "tail character is not in the range(a-z, A-Z)!" << endl;
+                    throw out_of_range("tail character is not in the range(a-z, A-Z)!");
                 }
             }
             else{
@@ -90,14 +87,12 @@ class ArgParser{
 
             
             if (!argparser.exist("word") &&!argparser.exist("char")){
-                cerr << "Either -w or -c must be selected!" << endl;
-                // outfile << "Either -w or -c must be selected!" << endl;
-                exit(-1);
+                // cerr << "Either -w or -c must be selected!" << endl;
+                throw invalid_argument("Either -w or -c must be selected!");
             }
             else if (argparser.exist("word") && argparser.exist("char")){
-                cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
-                // outfile << "-w and -c cannot be used together!(Not Implemented!)" << endl;
-                exit(-1);
+                // cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
+                throw invalid_argument("-w and -c cannot be used together!(Not Implemented!)");
             }
             
             // judging work mode
@@ -109,9 +104,8 @@ class ArgParser{
             else char_flag = false;
             
             if (num_flag && char_flag){
-                cerr << "Using -c and -n together is not implemented!" << endl;
-                // outfile << "Using -c and -n together is not implemented!" << endl;
-                exit(-1);
+                // cerr << "Using -c and -n together is not implemented!" << endl;
+                throw invalid_argument("Using -c and -n together is not implemented!");
             }
             filename = argparser.rest()[0];
         }
