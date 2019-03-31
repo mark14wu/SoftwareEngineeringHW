@@ -36,14 +36,14 @@ int main(int argc, char *argv[]) {
 	if (word_flag){
 		if (!num_flag) {
 			// n = most_word(1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
-			new_n = Core::gen_chain_word(WordChain, WordChain.size(), new_result, head, tail);
+			new_n = Core::gen_chain_word(WordChain, new_result, head, tail);
 			// cout << "n1=" << n << endl;
 			cout << "n=" << new_n << endl;
 		}
 	}
 	else if (char_flag){
 		// n = most_char (1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
-		new_n = Core::gen_chain_char(WordChain, WordChain.size(), new_result);
+		new_n = Core::gen_chain_char(WordChain, new_result);
 	}
 	else{
 		cerr << "flag exception!" << endl;
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 	// n = 0;
 	if (num_flag == true)
 		// n_word(1, 0, length1, num, n, WordMatrix, string_result, outfile);
-		Core::gen_chain_n_word(WordChain, WordChain.size(), num, outfile);
+		Core::gen_chain_n_word(WordChain, num, outfile);
 
 	if (num_flag == false) {
 		if (result.size() > 2) {
