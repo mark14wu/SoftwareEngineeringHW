@@ -1,12 +1,28 @@
 core = test_core
 argparser = test_argparser
+main = test_main
+object = test
+graph = result
+
+all:
+	g++ --coverage $(main).cpp $(core).cpp $(argparser).cpp -isystem ./include libgmock.a -pthread -o $(object) -std=c++11 
+	./$(object)
+	lcov -d . -t $(object) -o $(object).info -b . -c
+	genhtml -o $(graph) $(object).info
 
 core:
-	g++ $(core).cpp -isystem ./include libgmock.a -pthread -o $(core) -std=c++11
+	g++ $(main).cpp $(core).cpp -isystem ./include libgmock.a -pthread -o $(core) -std=c++11
 	./$(core)
 	rm -rf $(core)
 
 argparser:
-	g++ $(argparser).cpp -isystem ./include libgmock.a -pthread -o $(argparser) -std=c++11
+	g++ $(main).cpp $(argparser).cpp -isystem ./include libgmock.a -pthread -o $(argparser) -std=c++11
 	./$(argparser)
 	rm -rf $(argparser)
+
+clean:
+	rm -rf $(object)
+	rm -rf *.gcda
+	rm -rf *.gcno
+	rm -rf $(graph)
+	rm -rf $(object).info
