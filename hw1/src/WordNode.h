@@ -1,7 +1,7 @@
 #include <vector>
 
-#ifndef WORDNODE
-#define WORDNODE 1
+#ifndef WORDNODE_H
+#define WORDNODE_H 1
 
 class WordNode{
 public:

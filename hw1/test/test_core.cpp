@@ -2,7 +2,7 @@
 #include "../src/Core.cpp"
 #include <string>
 #include <vector>
-#include <fstream>
+#include <sstream>
 
 extern int main(int, char **);
 
@@ -123,32 +123,44 @@ TEST(gen_chain_word_test, GivenBothChar){
 
 TEST(gen_chain_n_word_test, NullTest){
     vector<string> input;
-    ofstream outfile;
-    outfile.open("testcase/gen_chain_n_word_test1.txt");
-    Core::gen_chain_n_word(input, 0, outfile);
-    outfile.close();
+    ostringstream test_ostream;
+    Core::gen_chain_n_word(input, 0, test_ostream);
+
+    string result = test_ostream.str();
+    string expected = "";
+    ASSERT_EQ(result, expected);
+
 }
 
 TEST(gen_chain_n_word_test, Test1){
     vector<string> input = {"ab", "bc", "cd", "de", "da", "ef", "fa"};
-    ofstream outfile;
-    outfile.open("testcase/gen_chain_n_word_test2.txt");
-    Core::gen_chain_n_word(input, 5, outfile);
-    outfile.close();
+    ostringstream test_ostream;
+    Core::gen_chain_n_word(input, 5, test_ostream);
+
+    string result = test_ostream.str();
+    string expected = string("ab bc cd de ef \nbc cd de ef fa \n") + 
+    string("cd de ef fa ab \nda ab bc cd de \nde ef fa ab bc \n") +
+    string("ef fa ab bc cd \nfa ab bc cd da \nfa ab bc cd de \nab bc cd de ef \n");
+    ASSERT_EQ(result, expected);
 }
 
 TEST(gen_chain_n_word_test, Test2){
     vector<string> input = {"ab", "bc", "cd", "de", "da", "ef", "fa"};
-    ofstream outfile;
-    outfile.open("testcase/gen_chain_n_word_test3.txt");
-    Core::gen_chain_n_word(input, 2, outfile);
-    outfile.close();
+    ostringstream test_ostream;
+    Core::gen_chain_n_word(input, 2, test_ostream);
+
+    string result = test_ostream.str();
+    string expected = "ab bc \nbc cd \ncd da \ncd de \nda ab \nde ef \nef fa \nfa ab \nab bc \n";
+    ASSERT_EQ(result, expected);
+
 }
 
 TEST(gen_chain_n_word_test, Test3){
     vector<string> input = {"ab", "bc", "cd", "de", "da", "ef", "fa"};
-    ofstream outfile;
-    outfile.open("testcase/gen_chain_n_word_test4.txt");
-    Core::gen_chain_n_word(input, 10, outfile);
-    outfile.close();
+    ostringstream test_ostream;
+    Core::gen_chain_n_word(input, 10, test_ostream);
+
+    string result = test_ostream.str();
+    string expected = "";
+    ASSERT_EQ(result, expected);
 }

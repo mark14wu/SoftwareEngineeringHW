@@ -137,7 +137,7 @@ public:
 		return n;
 	}
 
-	static void gen_chain_n_word(vector<string> words, int num, ofstream &outfile) {
+	static void gen_chain_n_word(vector<string> words, int num, ostream &outfile) {
 		if (words.empty()) return;
 		WordNode WordMatrix[26][26];
 		for (int i = 0; i < 26; i++) {
@@ -281,7 +281,7 @@ private:
 		return n;
 	}
 
-	static void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode num_matrix[][26], vector<string> &temp_result, ofstream &outfile) {
+	static void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode num_matrix[][26], vector<string> &temp_result, ostream &outfile) {
 		for (vector<string>::iterator it = temp_result.begin(); it != temp_result.end(); it++) {
 			// cout << *it << " ";
 		}
