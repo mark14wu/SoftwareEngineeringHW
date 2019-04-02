@@ -1,11 +1,13 @@
 core = test_core
 argparser = test_argparser
-main = test_main
+preprocessing = test_preprocessing
+
+main = test_driver
 object = test
 graph = result
 
 all:
-	g++ --coverage $(main).cpp $(core).cpp $(argparser).cpp -isystem ./include libgmock.a -pthread -o $(object) -std=c++11 
+	g++ --coverage $(main).cpp $(core).cpp $(argparser).cpp $(preprocessing).cpp -isystem ./include libgmock.a -pthread -o $(object) -std=c++11 
 	./$(object)
 	lcov -d . -t $(object) -o $(object).info -b . -c
 	genhtml -o $(graph) $(object).info
@@ -19,6 +21,11 @@ argparser:
 	g++ $(main).cpp $(argparser).cpp -isystem ./include libgmock.a -pthread -o $(argparser) -std=c++11
 	./$(argparser)
 	rm -rf $(argparser)
+
+preprocessing:
+	g++ $(main).cpp $(preprocessing).cpp -isystem ./include libgmock.a -pthread -o $(preprocessing) -std=c++11
+	./$(preprocessing)
+	rm -rf $(preprocessing)
 
 clean:
 	rm -rf $(object)

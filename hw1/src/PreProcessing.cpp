@@ -9,7 +9,7 @@ using namespace std;
 
 class PreProcessing{
     public:
-        static void process(ifstream &infile, string filename, vector<string> &WordChain){
+        static void process(istream &infile, vector<string> &WordChain){
             WordNode WordMatrix[26][26];
             for (int i = 0; i < 26; i++) {
                 for (int j = 0; j < 26; j++) {
@@ -24,13 +24,7 @@ class PreProcessing{
             int word_count = 0;
             start_char = 0;
             string temp_string=string();
-            infile.open(filename, ios::in);
 
-            if (!infile.is_open()) {
-                cerr << "Open file " << filename << " failure!" << endl;
-                // outfile << "Open file " << filename << " failure!" << endl;
-                exit(-1);
-            }
             infile >> noskipws;
             while (!infile.eof())   
             {
@@ -77,9 +71,8 @@ class PreProcessing{
             cout << word_count << endl;
             if (word_count == 0) {
                 //error1
-                cerr << "word not found!" << endl;
-                // outfile << "word not found!" << endl;
-                exit(-1);
+                throw invalid_argument("no word found in text!");
+                // cerr << "word not found!" << endl;
             }
         }
 };
