@@ -42,3 +42,13 @@ TEST(preprocessing_test, CaseInsensitive){
 
     ASSERT_EQ(vocabulary, expected);
 }
+
+TEST(preprocessing_test, MultipleWordInOneWordNode){
+    istringstream test_stream("i have a PeN, i hAve aN aPplE and an appppppple and also an appple。ah, appLE pen.");
+    vector<string> vocabulary;
+    PreProcessing::process(test_stream, vocabulary);
+    
+    vector<string> expected = { "have", "pen", "an", "apple", "and", "appppppple", "also", "appple", "ah" };
+
+    ASSERT_EQ(vocabulary, expected);
+}
