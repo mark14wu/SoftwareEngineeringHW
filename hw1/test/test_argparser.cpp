@@ -114,7 +114,7 @@ TEST(word_test, WithUpperCaseHead){
                 word_flag, char_flag, num_flag);
     
     ASSERT_EQ(filename, "test.txt");
-    ASSERT_EQ(head, 'A');
+    ASSERT_EQ(head, 'a');
     ASSERT_EQ(tail, '\0');
     ASSERT_EQ(num, 2147483647);
     ASSERT_TRUE(word_flag);
@@ -161,7 +161,7 @@ TEST(word_test, WithUpperCaseTail){
     
     ASSERT_EQ(filename, "test.txt");
     ASSERT_EQ(head, '\0');
-    ASSERT_EQ(tail, 'A');
+    ASSERT_EQ(tail, 'a');
     ASSERT_EQ(num, 2147483647);
     ASSERT_TRUE(word_flag);
     ASSERT_FALSE(char_flag);

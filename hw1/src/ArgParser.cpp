@@ -46,7 +46,7 @@ class ArgParser{
                     head = head_char;
                 }
                 else if ('A' <= head_char && head_char <= 'Z'){
-                    head = head_char;
+                    head = head_char - 'A' + 'a';
                 }
                 else{
                     throw out_of_range("head character is not in the range(a-z, A-Z)!");
@@ -69,7 +69,7 @@ class ArgParser{
                     tail = tail_char;
                 }
                 else if ('A' <= tail_char && tail_char <= 'Z'){
-                    tail = tail_char;
+                    tail = tail_char - 'A' + 'a';
                 }
                 else{
                     // cerr << "tail character is not in the range(a-z, A-Z)!" << endl;
