@@ -191,28 +191,29 @@ TEST(word_test, WithBothHeadAndTail){
     ASSERT_FALSE(num_flag);
 }
 
-TEST(word_test, WithBothHeadAndTailAndCount){
-    vector<string> arguments = {"./a.out", "-w", "test.txt", "-h", "a", "-t", "a", "-n", "114514"};
-    vector<char*> argv;
-    for (const auto& arg : arguments)
-        argv.push_back((char*)arg.data());
-    argv.push_back(nullptr);
+// 这个测试，没有任何存在的必要
+// TEST(word_test, WithBothHeadAndTailAndCount){
+//     vector<string> arguments = {"./a.out", "-w", "test.txt", "-h", "a", "-t", "a", "-n", "114514"};
+//     vector<char*> argv;
+//     for (const auto& arg : arguments)
+//         argv.push_back((char*)arg.data());
+//     argv.push_back(nullptr);
     
-    string filename;
-    char head, tail;
-    int num;
-    bool word_flag, char_flag, num_flag;
-    ArgParser::parse(argv.size() - 1, argv.data(), filename, head, tail, num,
-                word_flag, char_flag, num_flag);
+//     string filename;
+//     char head, tail;
+//     int num;
+//     bool word_flag, char_flag, num_flag;
+//     ArgParser::parse(argv.size() - 1, argv.data(), filename, head, tail, num,
+//                 word_flag, char_flag, num_flag);
     
-    ASSERT_EQ(filename, "test.txt");
-    ASSERT_EQ(head, 'a');
-    ASSERT_EQ(tail, 'a');
-    ASSERT_EQ(num, 114514);
-    ASSERT_TRUE(word_flag);
-    ASSERT_FALSE(char_flag);
-    ASSERT_TRUE(num_flag);
-}
+//     ASSERT_EQ(filename, "test.txt");
+//     ASSERT_EQ(head, 'a');
+//     ASSERT_EQ(tail, 'a');
+//     ASSERT_EQ(num, 114514);
+//     ASSERT_TRUE(word_flag);
+//     ASSERT_FALSE(char_flag);
+//     ASSERT_TRUE(num_flag);
+// }
 
 TEST(exception_test, HeadCharLengthError){
     vector<string> arguments = {"./a.out", "-w", "test.txt", "-h", "aa"};
