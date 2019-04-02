@@ -12,13 +12,13 @@ TEST(preprocessing_test, NullTest){
     vector<string> vocabulary;
     try{
         PreProcessing::process(null_stream, vocabulary);
-        FAIL();
+        FAIL(); // 不抛出异常，失败
     }
     catch(invalid_argument const& err){
         EXPECT_EQ(err.what(), string("no word found in text!"));
     }
     catch(...){
-        FAIL();
+        FAIL(); // 抛出其他异常，失败
     }
 }
 
