@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
 	}
 	else if (char_flag){
 		// n = most_char (1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
-		new_n = Core::gen_chain_char(WordChain, new_result);
+		new_n = Core::gen_chain_char(WordChain, new_result, head, tail);
 	}
 	else{
 		throw invalid_argument("!-w and !-c!");
@@ -67,29 +67,28 @@ int main(int argc, char *argv[]) {
 		Core::gen_chain_n_word(WordChain, num, outfile);
 
 	if (num_flag == false) {
-		for (vector<string>::iterator it = new_result.begin(); it != new_result.end(); it++) {
+		for (vector<string>::iterator it = new_result.begin(); it != new_result.end(); it++)
 				outfile << *it << endl;
-		}
-		/*
-		if (result.size() > 2) {
-			/*
-			for (vector<int>::iterator it = result.begin(); it != result.end() - 1; it++)
-			{
-				//outfile << *it << endl;
-				outfile << WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1] << endl;
-				WordMatrix[*it][*(it + 1)].word_count--;
-			}
-			*//*
-			for (vector<string>::iterator it = new_result.begin(); it != new_result.end(); it++) {
-				outfile << *it << endl;
-			}
-		}
-		else {
-			//error 2
-			cerr << "error: word chain not found !" << endl;
-			// outfile << "error: word chain not found !" << endl;
-			return -1;
-		}*/
+
+		// if (result.size() > 2) {
+			
+		// 	for (vector<int>::iterator it = result.begin(); it != result.end() - 1; it++)
+		// 	{
+		// 		//outfile << *it << endl;
+		// 		outfile << WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1] << endl;
+		// 		WordMatrix[*it][*(it + 1)].word_count--;
+		// 	}
+			
+		// 	for (vector<string>::iterator it = new_result.begin(); it != new_result.end(); it++) {
+		// 		outfile << *it << endl;
+		// 	}
+		// }
+		// else {
+		// 	//error 2
+		// 	cerr << "error: word chain not found !" << endl;
+		// 	// outfile << "error: word chain not found !" << endl;
+		// 	return -1;
+		// }
 	}
 	else {
 		outfile.seekp(0, ios::beg);
