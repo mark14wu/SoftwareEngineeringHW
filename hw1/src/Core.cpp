@@ -49,7 +49,7 @@ public:
 		return n;
 	}
 
-	static int gen_chain_char(vector<string> words, vector<string> &result) {
+	static int gen_chain_char(vector<string> words, vector<string> &result, char head, char tail) {
 		result.clear();
 		if (words.empty()) return 0;	// NULL input
 		WordNode WordMatrix[26][26];
@@ -76,17 +76,26 @@ public:
 			WordMatrix[start_index][end_index].wordlist.insert(it, temp_string);
 			WordMatrix[start_index][end_index].word_count++;
 		}
-		int head = 0;
-		int tail = 0;
+
+		int head_int;
+		if (head) head_int = head - 'a' + 1;
+		else head_int = 0;
+
+		int tail_int;
+		if (tail) tail_int = tail - 'a' + 1;
+		else tail_int = 0;
+
 		int length = 0;
 		int max_length = 0;
 		vector<int> int_result;
 		vector<int> temp_result;
-		int n = most_char(1, 0, length, max_length, head, tail, WordMatrix, int_result, temp_result);
+		most_char (1, 0, length, max_length, head_int, tail_int, WordMatrix, int_result, temp_result);
+		int n=0;
 		for (vector<int>::iterator it = int_result.begin(); it != int_result.end() - 1; it++)
 		{
 			result.push_back(WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1]);
 			WordMatrix[*it][*(it + 1)].word_count--;
+			n+=result.back().length();
 		}
 		return n;
 	}
@@ -128,7 +137,7 @@ public:
 		int max_length = 0;
 		vector<int> int_result;
 		vector<int> temp_result;
-		int n = most_word(1, 0, length, max_length, head_int, tail_int, WordMatrix, int_result, temp_result);
+		int n=most_word(1, 0, length, max_length, head_int, tail_int, WordMatrix, int_result, temp_result);
 		for (vector<int>::iterator it = int_result.begin(); it != int_result.end() - 1; it++)
 		{
 			result.push_back(WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1]);

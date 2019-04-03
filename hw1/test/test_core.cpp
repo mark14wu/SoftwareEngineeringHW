@@ -17,7 +17,6 @@ TEST(gen_chain_test, NullTest){
     ASSERT_TRUE(results.empty());
 }
 
-
 TEST(gen_chain_test, LoopTest){
     vector<string> input = {"aab", "bbc", "ccd", "dda"};
     vector<string> results;
@@ -26,6 +25,7 @@ TEST(gen_chain_test, LoopTest){
     ASSERT_EQ(len, 4);
     ASSERT_EQ(results, expected);
 }
+
 TEST(gen_chain_test, SingleCharLoop){
     vector<string> input = {"a", "aa", "aaa", "aaaa"};
     vector<string> results;
@@ -35,6 +35,7 @@ TEST(gen_chain_test, SingleCharLoop){
     ASSERT_EQ(len, 4);
     ASSERT_EQ(results, expected);
 }
+
 TEST(gen_chain_test, SingleCharBigLoop){
     vector<string> input = {"a","aaa","aa","aaaaaaaaaaaa","aaaaaaaaa",
     "aaaaaaaaaaaaaaaaaaaaaaa","aaaaa","aaaaaaaa", 
@@ -58,7 +59,7 @@ TEST(gen_chain_test, SingleCharBigLoop){
 TEST(gen_chain_char_test, NullTest){
     vector<string> words;
     vector<string> results;
-    int len = Core::gen_chain_char(words, results);
+    int len = Core::gen_chain_char(words, results, '\0', '\0');
     ASSERT_EQ(len, 0);
     ASSERT_TRUE(words.empty());
     ASSERT_TRUE(results.empty());
@@ -72,7 +73,46 @@ TEST(gen_chain_char_test, MostCharCount){
     vector<string> results;
     vector<string> expected = 
     { "zbakjsdoifajsodjifasjofjksfoasfjoaisdfjaiosdjfosdfjodsajfoisadjfodsfosdjfosdfodsafiodsfioadsjfodsajfiodsj", "jlqkjweojojosfjoasjkfojsfosajfl;sjlfsjflsajflksajflsjflasjflasjflsadjflsdjfladsjfkdls" };
-    int len = Core::gen_chain_char(input, results);
+    int len = Core::gen_chain_char(input, results, '\0', '\0');
+    ASSERT_EQ(len, 190);
+    ASSERT_EQ(results, expected);
+}
+
+TEST(gen_chain_char_test, HeadTest){
+    vector<string> input = {"ab", "bc", "cd", "de", "ef", "fg", "gh", "hi", 
+    "zbakjsdoifajsodjifasjofjksfoasfjoaisdfjaiosdjfosdfjodsajfoisadjfodsfosdjfosdfodsafiodsfioadsjfodsajfiodsj",
+    "jlqkjweojojosfjoasjkfojsfosajfl;sjlfsjflsajflksajflsjflasjflasjflsadjflsdjfladsjfkdls"};
+    // 测试其是否计算了字符数而不是单词数
+    vector<string> results;
+    vector<string> expected = 
+    { "jlqkjweojojosfjoasjkfojsfosajfl;sjlfsjflsajflksajflsjflasjflasjflsadjflsdjfladsjfkdls" };
+    int len = Core::gen_chain_char(input, results, 'j', '\0');
+    ASSERT_EQ(len, 85);
+    ASSERT_EQ(results, expected);
+}
+
+TEST(gen_chain_char_test, TailTest){
+    vector<string> input = {"ab", "bc", "cd", "de", "ef", "fg", "gh", "hi", 
+    "zbakjsdoifajsodjifasjofjksfoasfjoaisdfjaiosdjfosdfjodsajfoisadjfodsfosdjfosdfodsafiodsfioadsjfodsajfiodsj",
+    "jlqkjweojojosfjoasjkfojsfosajfl;sjlfsjflsajflksajflsjflasjflasjflsadjflsdjfladsjfkdls"};
+    // 测试其是否计算了字符数而不是单词数
+    vector<string> results;
+    vector<string> expected = 
+    { "zbakjsdoifajsodjifasjofjksfoasfjoaisdfjaiosdjfosdfjodsajfoisadjfodsfosdjfosdfodsafiodsfioadsjfodsajfiodsj" };
+    int len = Core::gen_chain_char(input, results, '\0', 'j');
+    ASSERT_EQ(len, 105);
+    ASSERT_EQ(results, expected);
+}
+
+TEST(gen_chain_char_test, MostCharCountWithMultipleWordInOneNode){
+    vector<string> input = {"abb", "ab", "abbbbbb", "bc", "cd", "de", "ef", "fg", "gh", "hi", 
+    "zbakjsdoifajsodjifasjofjksfoasfjoaisdfjaiosdjfosdfjodsajfoisadjfodsfosdjfosdfodsafiodsfioadsjfodsajfiodsj",
+    "jlqkjweojojosfjoasjkfojsfosajfl;sjlfsjflsajflksajflsjflasjflasjflsadjflsdjfladsjfkdls"};
+    // 测试其是否计算了字符数而不是单词数
+    vector<string> results;
+    vector<string> expected = 
+    { "zbakjsdoifajsodjifasjofjksfoasfjoaisdfjaiosdjfosdfjodsajfoisadjfodsfosdjfosdfodsafiodsfioadsjfodsajfiodsj", "jlqkjweojojosfjoasjkfojsfosajfl;sjlfsjflsajflksajflsjflasjflasjflsadjflsdjfladsjfkdls" };
+    int len = Core::gen_chain_char(input, results, '\0', '\0');
     ASSERT_EQ(len, 190);
     ASSERT_EQ(results, expected);
 }
@@ -112,14 +152,24 @@ TEST(gen_chain_word_test, GivenTailChar){
     ASSERT_EQ(expected, results);
 }
 
-TEST(gen_chain_word_test, GivenBothChar){
-    vector<string> input = {"ab", "bc", "cd", "de", "da", "ef"};
+TEST(gen_chain_word_test, GivenBothCharWithMultipleWordInOneNode){
+    vector<string> input = {"abb", "ab", "abbb", "bc", "cd", "de", "da", "ef"};
     vector<string> results;
-    vector<string> expected = { "ab", "bc", "cd", "da" };
+    vector<string> expected = { "abbb", "bc", "cd", "da" };
     int len = Core::gen_chain_word(input, results, 'a', 'a');
     ASSERT_EQ(len, 5);
     ASSERT_EQ(expected, results);
 }
+
+// 这个测试没有存在的必要
+// TEST(gen_chain_word_test, GivenBothChar){
+//     vector<string> input = {"ab", "bc", "cd", "de", "da", "ef"};
+//     vector<string> results;
+//     vector<string> expected = { "ab", "bc", "cd", "da" };
+//     int len = Core::gen_chain_word(input, results, 'a', 'a');
+//     ASSERT_EQ(len, 5);
+//     ASSERT_EQ(expected, results);
+// }
 
 TEST(gen_chain_n_word_test, NullTest){
     vector<string> input;
@@ -141,6 +191,16 @@ TEST(gen_chain_n_word_test, Test1){
     string expected = string("ab bc cd de ef \nbc cd de ef fa \n") + 
     string("cd de ef fa ab \nda ab bc cd de \nde ef fa ab bc \n") +
     string("ef fa ab bc cd \nfa ab bc cd da \nfa ab bc cd de \nab bc cd de ef \n");
+    ASSERT_EQ(result, expected);
+}
+
+TEST(gen_chain_n_word_test, Test1WithMultipleWordInOneNode){
+    vector<string> input = {"abb", "ab", "abbb", "bc", "cd", "de", "da", "ef", "fa"};
+    ostringstream test_ostream;
+    Core::gen_chain_n_word(input, 2, test_ostream);
+
+    string result = test_ostream.str();
+    string expected = "abbb bc \nbc cd \ncd da \ncd de \nda abbb \nde ef \nef fa \nfa abbb \nabbb bc \n";
     ASSERT_EQ(result, expected);
 }
 
