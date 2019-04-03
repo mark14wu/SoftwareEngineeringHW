@@ -34,13 +34,12 @@ public:
 			WordMatrix[start_index][end_index].wordlist.insert(it, temp_string);
 			WordMatrix[start_index][end_index].word_count++;
 		}
-		int head = 0;
-		int tail = 0;
+		
 		int length = 0;
 		int max_length = 0;
 		vector<int> int_result;
 		vector<int> temp_result;
-		int n = most_word(1, 0, length, max_length, head, tail, WordMatrix, int_result, temp_result);
+		int n = most_word(1, 0, length, max_length, 0, 0, WordMatrix, int_result, temp_result);
 		for (vector<int>::iterator it = int_result.begin(); it != int_result.end() - 1; it++)
 		{
 			result.push_back(WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1]);
