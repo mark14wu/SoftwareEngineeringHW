@@ -1,9 +1,8 @@
 .DS_Store
-/hw1/.vscode
+/test/.vscode
 /Project1
-hw1/a.out
-hw1/solution.txt
-hw1/test.txt
+solution.txt
+test.txt
 .vscode
-hw1/report/51+功能封装+蒋越+PB16001821.pdf
+report/51+功能封装+蒋越+PB16001821.pdf
 a.out
