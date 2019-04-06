@@ -49,7 +49,6 @@ class PreProcessing{
                                 if_repeat = true;
                         }
                         if (!if_repeat) {
-                            //cout << temp_string << endl;
                             WordChain.push_back(temp_string);
                             vector<string>::iterator it = WordMatrix[start_index][end_index].wordlist.begin();
                             while (it != WordMatrix[start_index][end_index].wordlist.end()) {
@@ -68,11 +67,9 @@ class PreProcessing{
                     start_char = 0;
                 }
             }
-            cout << word_count << endl;
             if (word_count == 0) {
-                //error1
+                // error1
                 throw invalid_argument("no word found in text!");
-                // cerr << "word not found!" << endl;
             }
         }
 };
