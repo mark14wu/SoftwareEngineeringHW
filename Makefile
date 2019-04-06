@@ -3,3 +3,4 @@ all:
 
 clean:
 	rm -rf a.out
+	rm -rf solution.txt
