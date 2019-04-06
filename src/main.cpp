@@ -1,4 +1,5 @@
 #include <fstream>
+#include <system_error>
 
 #include "cmdline.h"
 #include "Core.cpp"
@@ -23,76 +24,44 @@ int main(int argc, char *argv[]) {
 	vector<string> WordChain;
 
 	ifstream infile;
-	infile.exceptions(ios::badbit);	// failbit 不算错误
-	/*
-	try{
-		infile.open(filename, ios::in);
-	}
-	catch (const ifstream::failure& e) {
-		cerr << "Open file " << filename << " failure!" << endl;
-  	}*/
-	
+
 	infile.open(filename, ios::in);
+	if (infile.fail()){
+		throw system_error(errno, std::generic_category());
+		// cerr << "Open file " << filename << " failure：" << strerror(errno) << endl;
+		// return -1;
+	}
 
 	PreProcessing::process(infile, WordChain);
 
 	int length1 = 0;
 	int max_length = 0;
-	vector<int> result;
-	vector<int> temp_result;
-	vector<string> string_result;
-	vector<string> new_result;
-	// int n; // n is the length of word chain
-	int new_n;
+	vector<string> result;
+
+	int n; // n is the length of word chain
 	if (word_flag){
 		if (!num_flag) {
-			// n = most_word(1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
-			new_n = Core::gen_chain_word(WordChain, new_result, head, tail);
-			// cout << "n1=" << n << endl;
-			cout << "n=" << new_n << endl;
+			n = Core::gen_chain_word(WordChain, result, head, tail);
+			cout << "word chain length = " << n << endl;
 		}
 	}
 	else if (char_flag){
-		// n = most_char (1, 0, length1, max_length, head, tail, WordMatrix, result, temp_result);
-		new_n = Core::gen_chain_char(WordChain, new_result, head, tail);
+		n = Core::gen_chain_char(WordChain, result, head, tail);
 	}
 	else{
 		throw invalid_argument("!-w and !-c!");
-		// cerr << "flag exception!" << endl;
-		// outfile << "flag exception!" << endl;
 	}
-	// n = 0;
+
 	if (num_flag == true)
-		// n_word(1, 0, length1, num, n, WordMatrix, string_result, outfile);
 		Core::gen_chain_n_word(WordChain, num, outfile);
 
 	if (num_flag == false) {
-		for (vector<string>::iterator it = new_result.begin(); it != new_result.end(); it++)
-				outfile << *it << endl;
-
-		// if (result.size() > 2) {
-			
-		// 	for (vector<int>::iterator it = result.begin(); it != result.end() - 1; it++)
-		// 	{
-		// 		//outfile << *it << endl;
-		// 		outfile << WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1] << endl;
-		// 		WordMatrix[*it][*(it + 1)].word_count--;
-		// 	}
-			
-		// 	for (vector<string>::iterator it = new_result.begin(); it != new_result.end(); it++) {
-		// 		outfile << *it << endl;
-		// 	}
-		// }
-		// else {
-		// 	//error 2
-		// 	cerr << "error: word chain not found !" << endl;
-		// 	// outfile << "error: word chain not found !" << endl;
-		// 	return -1;
-		// }
+		for (vector<string>::iterator it = result.begin(); it != result.end(); it++)
+			outfile << *it << endl;
 	}
 	else {
 		outfile.seekp(0, ios::beg);
-		outfile << new_n << endl;
+		outfile << n << endl;
 	}
 	infile.close(); 
 	outfile.close();
