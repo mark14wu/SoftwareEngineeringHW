@@ -38,7 +38,6 @@ class ArgParser{
             buffer = argparser.get<string>("head");
             if (buffer.length() > 1){
                 throw length_error("head character length error!");
-                // cerr << "length of head character is greater than 1!" << endl;
             }
             head_char = buffer[0];
             if (head_char != '\0'){
@@ -50,7 +49,6 @@ class ArgParser{
                 }
                 else{
                     throw out_of_range("head character is not in the range(a-z, A-Z)!");
-                    // cerr << "head character is not in the range(a-z, A-Z)!" << endl;
                 }
             }
             else{
@@ -61,7 +59,6 @@ class ArgParser{
             buffer = argparser.get<string>("tail");
             if (buffer.length() > 1){
                 throw length_error("tail character length error!");
-                // outfile << "length of tail character is greater than 1!" << endl;
             }
             tail_char = buffer[0];
             if (tail_char != '\0'){
@@ -72,7 +69,6 @@ class ArgParser{
                     tail = tail_char - 'A' + 'a';
                 }
                 else{
-                    // cerr << "tail character is not in the range(a-z, A-Z)!" << endl;
                     throw out_of_range("tail character is not in the range(a-z, A-Z)!");
                 }
             }
@@ -87,11 +83,9 @@ class ArgParser{
 
             
             if (!argparser.exist("word") &&!argparser.exist("char")){
-                // cerr << "Either -w or -c must be selected!" << endl;
                 throw invalid_argument("Either -w or -c must be selected!");
             }
             else if (argparser.exist("word") && argparser.exist("char")){
-                // cerr << "-w and -c cannot be used together!(Not Implemented!)" << endl;
                 throw invalid_argument("-w and -c cannot be used together!(Not Implemented!)");
             }
             
@@ -104,7 +98,6 @@ class ArgParser{
             else char_flag = false;
             
             if (num_flag && char_flag){
-                // cerr << "Using -c and -n together is not implemented!" << endl;
                 throw invalid_argument("Using -c and -n together is not implemented!");
             }
             filename = argparser.rest()[0];
