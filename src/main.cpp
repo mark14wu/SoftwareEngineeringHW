@@ -1,5 +1,6 @@
 #include <fstream>
 #include <system_error>
+#include <tuple>
 
 #include "cmdline.h"
 #include "Core.cpp"
@@ -41,12 +42,12 @@ int main(int argc, char *argv[]) {
 	int n; // n is the length of word chain
 	if (word_flag){
 		if (!num_flag) {
-			n = Core::gen_chain_word(WordChain, result, head, tail);
+			tie(n, result) = Core::gen_chain_word(WordChain, head, tail);
 			cout << "word chain length = " << n << endl;
 		}
 	}
 	else if (char_flag){
-		n = Core::gen_chain_char(WordChain, result, head, tail);
+		tie(n, result) = Core::gen_chain_char(WordChain, head, tail);
 	}
 	else{
 		throw invalid_argument("!-w and !-c!");
