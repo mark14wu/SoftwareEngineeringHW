@@ -28,7 +28,7 @@ preprocessing:
 	rm -rf $(preprocessing)
 
 clean:
-	rm -rf $(object)
+	rm -rf $(object) $(core) $(argparser) $(preprocessing)
 	rm -rf *.gcda
 	rm -rf *.gcno
 	rm -rf $(graph)
