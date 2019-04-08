@@ -288,10 +288,6 @@ private:
 	}
 
 	static void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode num_matrix[][26], vector<string> &temp_result, ostream &outfile) {
-		// for (vector<string>::iterator it = temp_result.begin(); it != temp_result.end(); it++) {
-		// 	// cout << *it << " ";
-		// }
-		// // cout << endl;
 		if (if_start == 1) {
 			for (int i = 0; i < 26; i++) {
 				n_word(0, i, length, n_length, n, num_matrix, temp_result, outfile);
