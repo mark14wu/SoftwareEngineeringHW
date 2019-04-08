@@ -3,13 +3,17 @@
 #include <iostream>
 #include <fstream>
 #include "WordNode.h"
+#include <cctype>
+#include <tuple>
+
 using namespace std;
 
 class Core {
 public:
-	static int gen_chain(vector<string> words, vector<string> &result) {
-		result.clear();
-		if (words.empty()) return 0;	// if input is NULL
+	static tuple<int, vector<string>> gen_chain(vector<string> words) {
+		vector<string> result;
+		if (words.empty()) return make_tuple(0, result);	// if input is NULL
+		check_words(words);
 		WordNode WordMatrix[26][26];
 		for (int i = 0; i < 26; i++) {
 			for (int j = 0; j < 26; j++) {
@@ -45,12 +49,16 @@ public:
 			result.push_back(WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1]);
 			WordMatrix[*it][*(it + 1)].word_count--;
 		}
-		return n;
+		return make_tuple(n, result);
 	}
 
-	static int gen_chain_char(vector<string> words, vector<string> &result, char head, char tail) {
-		result.clear();
-		if (words.empty()) return 0;	// NULL input
+	static tuple<int, vector<string>> gen_chain_char(vector<string> words, char head, char tail) {
+		vector<string> result;
+		if (words.empty()) return make_tuple(0, result);	// NULL input
+		check_words(words);
+		int head_int = convert_char(head);
+		int tail_int = convert_char(tail);
+
 		WordNode WordMatrix[26][26];
 		for (int i = 0; i < 26; i++) {
 			for (int j = 0; j < 26; j++) {
@@ -75,14 +83,6 @@ public:
 			WordMatrix[start_index][end_index].wordlist.insert(it, temp_string);
 			WordMatrix[start_index][end_index].word_count++;
 		}
-
-		int head_int;
-		if (head) head_int = head - 'a' + 1;
-		else head_int = 0;
-
-		int tail_int;
-		if (tail) tail_int = tail - 'a' + 1;
-		else tail_int = 0;
 
 		int length = 0;
 		int max_length = 0;
@@ -96,12 +96,17 @@ public:
 			WordMatrix[*it][*(it + 1)].word_count--;
 			n+=result.back().length();
 		}
-		return n;
+		return make_tuple(n, result);
 	}
 
-	static int gen_chain_word(vector<string> words, vector<string> &result, char head, char tail) {
-		result.clear();
-		if(words.empty()) return 0;
+	static tuple<int, vector<string>> gen_chain_word(vector<string> words, char head, char tail) {
+		vector<string> result;
+		if(words.empty()) return make_tuple(0, result);
+		check_words(words);
+		int head_int = convert_char(head);
+		int tail_int = convert_char(tail);
+
+
 		WordNode WordMatrix[26][26];
 		for (int i = 0; i < 26; i++) {
 			for (int j = 0; j < 26; j++) {
@@ -126,12 +131,7 @@ public:
 			WordMatrix[start_index][end_index].wordlist.insert(it, temp_string);
 			WordMatrix[start_index][end_index].word_count++;
 		}
-		int head_int;
-		if (head) head_int = head - 'a' + 1;
-		else head_int = 0;
-		int tail_int;
-		if (tail) tail_int = tail - 'a' + 1;
-		else tail_int = 0;
+
 		int length = 0;
 		int max_length = 0;
 		vector<int> int_result;
@@ -142,11 +142,13 @@ public:
 			result.push_back(WordMatrix[*it][*(it + 1)].wordlist[WordMatrix[*it][*(it + 1)].word_count - 1]);
 			WordMatrix[*it][*(it + 1)].word_count--;
 		}
-		return n;
+		return make_tuple(n, result);
 	}
 
 	static void gen_chain_n_word(vector<string> words, int num, ostream &outfile) {
 		if (words.empty()) return;
+		check_words(words);
+
 		WordNode WordMatrix[26][26];
 		for (int i = 0; i < 26; i++) {
 			for (int j = 0; j < 26; j++) {
@@ -206,7 +208,6 @@ private:
 				if (end_char == 0) {
 					if (length > max_length) {
 						max_length = length;
-						//printf("%d\n", max_length);
 						result.clear();
 						result.assign(temp_result.begin(), temp_result.end());
 					}
@@ -214,7 +215,6 @@ private:
 				else {
 					if (length > max_length && i==end_char-1) {
 						max_length = length;
-						//printf("%d\n", max_length);
 						result.clear();
 						result.assign(temp_result.begin(), temp_result.end());
 					}
@@ -263,7 +263,6 @@ private:
 				if (end_char == 0) {
 					if (length > max_length) {
 						max_length = length;
-						//printf("%d %d\n", MaxCharNum, max_length);
 						result.clear();
 						result.assign(temp_result.begin(), temp_result.end());
 					}
@@ -271,7 +270,6 @@ private:
 				else {
 					if (length > max_length && end_char-1==i) {
 						max_length = length;
-						//printf("%d %d\n", MaxCharNum, max_length);
 						result.clear();
 						result.assign(temp_result.begin(), temp_result.end());
 					}
@@ -290,10 +288,10 @@ private:
 	}
 
 	static void n_word(int if_start, int start, int &length, int n_length, int &n, WordNode num_matrix[][26], vector<string> &temp_result, ostream &outfile) {
-		for (vector<string>::iterator it = temp_result.begin(); it != temp_result.end(); it++) {
-			// cout << *it << " ";
-		}
-		// cout << endl;
+		// for (vector<string>::iterator it = temp_result.begin(); it != temp_result.end(); it++) {
+		// 	// cout << *it << " ";
+		// }
+		// // cout << endl;
 		if (if_start == 1) {
 			for (int i = 0; i < 26; i++) {
 				n_word(0, i, length, n_length, n, num_matrix, temp_result, outfile);
@@ -321,5 +319,29 @@ private:
 				num_matrix[start][i].word_count++;
 			}
 		}
+	}
+
+	// exceptions
+
+	inline static void check_words(vector<string> words){
+		for (auto it = words.begin(); it != words.end(); it++){
+			for (auto it_char = it -> begin(); it_char != it -> end(); it_char ++){
+				if (!isalpha(*it_char))
+					throw out_of_range("char \'" + string(1, *it_char) + "\' out of range in word \"" + string(*it) + "\"");
+			}
+		}
+	}
+
+	inline static int convert_char(char rhs){
+		if (rhs != '\0'){
+			if ('a' <= rhs && rhs <= 'z')
+				return rhs - 'a' + 1;
+			else if ('A' <= rhs && rhs <= 'Z')
+				return rhs - 'A' + 1;
+			else
+				throw out_of_range("char " + string(1, rhs) + " is not in the range(a-z, A-Z)!");
+		}
+		else
+			return 0;
 	}
 };
