@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 		throw system_error(errno, std::generic_category());
 	}
 
-	WorldChain = PreProcessing::process(infile);
+	WordChain = PreProcessing::process(infile);
 
 	int length1 = 0;
 	int max_length = 0;
