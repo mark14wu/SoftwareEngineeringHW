@@ -29,8 +29,6 @@ int main(int argc, char *argv[]) {
 	infile.open(filename, ios::in);
 	if (infile.fail()){
 		throw system_error(errno, std::generic_category());
-		// cerr << "Open file " << filename << " failure：" << strerror(errno) << endl;
-		// return -1;
 	}
 
 	PreProcessing::process(infile, WordChain);
