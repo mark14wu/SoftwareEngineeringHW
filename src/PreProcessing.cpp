@@ -9,7 +9,8 @@ using namespace std;
 
 class PreProcessing{
     public:
-        static void process(istream &infile, vector<string> &WordChain){
+        static vector<string> process(istream &infile){
+            vector<string> WordChain;
             WordNode WordMatrix[26][26];
             for (int i = 0; i < 26; i++) {
                 for (int j = 0; j < 26; j++) {
@@ -71,5 +72,6 @@ class PreProcessing{
                 // error1
                 throw invalid_argument("no word found in text!");
             }
+            return WordChain;
         }
 };
