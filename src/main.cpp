@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
 	}
 	else if (char_flag){
 		tie(n, result) = Core::gen_chain_char(WordChain, head, tail);
+		cout << "word chain char number = " << n << endl;
 	}
 	else{
 		throw invalid_argument("!-w and !-c!");
